@@ -1,0 +1,9 @@
+{
+  "name": "半馬訓練計畫",
+  "short_name": "半馬訓練",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f5f7",
+  "theme_color": "#1a1a2e",
+  "icons": []
+}
