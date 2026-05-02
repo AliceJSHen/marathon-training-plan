@@ -1,169 +1,603 @@
+/* ============================================================
+   Marathon — Editorial design system
+   Three themes (editorial / sport / press) togglable via Tweaks
+   ============================================================ */
+
+:root, [data-theme="editorial"]{
+  --bg:        #f4f1ea;
+  --bg-elev:  #ffffff;
+  --bg-sunk:  #ebe6db;
+  --ink:       #161513;
+  --ink-2:    #3a3733;
+  --ink-3:    #6f6a62;
+  --ink-4:    #a39d92;
+  --rule:      rgba(22,21,19,.10);
+  --rule-2:   rgba(22,21,19,.18);
+  --accent:    #c8451e;            /* terracotta */
+  --accent-ink:#ffffff;
+  --accent-soft:#fbe8df;
+  --c-easy:    #2d6a4f;
+  --c-long:    #1d4ed8;
+  --c-tempo:   #b45309;
+  --c-int:     #7c3aed;
+  --c-rest:    #6f6a62;
+  --c-race:    #c8451e;
+  --c-travel:  #92400e;
+
+  --font-display: "Fraunces", "Source Serif Pro", Georgia, "Songti TC", serif;
+  --font-text:    "Inter", -apple-system, "Helvetica Neue", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 14px;
+
+  --pad: 20px;
+  --gap: 16px;
+}
+
+[data-theme="sport"]{
+  --bg:       #0b0d10;
+  --bg-elev: #15181d;
+  --bg-sunk: #07090c;
+  --ink:      #f1efe9;
+  --ink-2:   #c9c5bb;
+  --ink-3:   #8a857a;
+  --ink-4:   #56524a;
+  --rule:     rgba(255,255,255,.08);
+  --rule-2:  rgba(255,255,255,.16);
+  --accent:   #d6ff3a;             /* electric lime */
+  --accent-ink:#0b0d10;
+  --accent-soft:rgba(214,255,58,.12);
+  --c-easy:   #4ade80;
+  --c-long:   #60a5fa;
+  --c-tempo:  #fbbf24;
+  --c-int:    #c084fc;
+  --c-rest:   #8a857a;
+  --c-race:   #ff5c33;
+  --c-travel: #fb923c;
+}
+
+[data-theme="press"]{
+  --bg:       #ece8de;
+  --bg-elev: #ece8de;
+  --bg-sunk: #dcd6c5;
+  --ink:      #0a0a0a;
+  --ink-2:   #0a0a0a;
+  --ink-3:   #4a4a4a;
+  --ink-4:   #7a7a7a;
+  --rule:     #0a0a0a;
+  --rule-2:  #0a0a0a;
+  --accent:   #d92626;             /* poster red */
+  --accent-ink:#ece8de;
+  --accent-soft:#0a0a0a;
+  --c-easy:   #0a0a0a;
+  --c-long:   #0a0a0a;
+  --c-tempo:  #d92626;
+  --c-int:    #d92626;
+  --c-rest:   #7a7a7a;
+  --c-race:   #d92626;
+  --c-travel: #0a0a0a;
+}
+
+[data-density="compact"]{ --pad: 14px; --gap: 10px; }
+[data-density="comfy"]  { --pad: 28px; --gap: 22px; }
+
+/* -------- base -------- */
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,"Helvetica Neue","PingFang TC","Microsoft JhengHei",sans-serif;
-  background:#f5f5f7;color:#1d1d1f;line-height:1.55;-webkit-text-size-adjust:100%;padding-bottom:80px}
-.wrap{max-width:800px;margin:0 auto;padding:20px 16px 30px}
+html,body{background:var(--bg);color:var(--ink);
+  font-family:var(--font-text);
+  font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%}
+body{padding-bottom:84px;min-height:100vh}
 
-/* Header */
-.app-header{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);
-  color:white;padding:24px 20px 20px;text-align:center}
-.app-header h1{font-size:24px;letter-spacing:-.3px;margin-bottom:4px}
-.app-header .sub{font-size:13px;opacity:.75}
-.countdown-row{display:flex;justify-content:center;gap:16px;margin-top:14px}
-.cd-item{text-align:center}
-.cd-num{font-size:28px;font-weight:700;display:block}
-.cd-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;opacity:.6}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+input,select,textarea{font:inherit;color:inherit}
 
-/* Tab bar */
-.tab-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.92);
-  backdrop-filter:blur(12px);border-top:1px solid #e5e5ea;display:flex;z-index:100;
-  padding-bottom:env(safe-area-inset-bottom)}
-.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
-  padding:8px 0 6px;border:none;background:none;color:#86868b;font-size:10px;
-  font-weight:600;cursor:pointer;transition:color .15s}
-.tab-btn.active{color:#007aff}
-.tab-btn .icon{font-size:20px}
-.tab-page{display:none}
+.serif{font-family:var(--font-display);font-weight:400;letter-spacing:-.01em}
+.mono { font-family:var(--font-mono);font-feature-settings:"tnum" 1}
+.tabular{font-variant-numeric:tabular-nums}
+
+.eyebrow{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:500}
+
+.wrap{max-width:780px;margin:0 auto;padding:0 var(--pad)}
+
+/* ============================================================
+   MASTHEAD — editorial newspaper-style header
+   ============================================================ */
+.masthead{
+  border-bottom:1px solid var(--rule-2);
+  padding:14px var(--pad) 0;
+  background:var(--bg);
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+.mast-principle{
+  max-width:780px;margin:10px auto 0;
+  display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding:8px 0 10px;border-top:1px solid var(--rule);
+}
+.mast-principle .mp-label{font-family:var(--font-mono);font-size:9.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:500;
+  flex-shrink:0}
+.mast-principle .mp-text{font-family:var(--font-display);font-size:14.5px;
+  font-style:italic;font-weight:500;line-height:1.3;color:var(--ink);
+  text-align:right;letter-spacing:-.005em}
+[data-theme="press"] .mast-principle .mp-text{font-family:var(--font-text);
+  font-style:normal;font-weight:700;text-transform:uppercase}
+.mast-principle em{font-style:inherit;color:var(--accent);font-weight:600}
+@media(max-width:560px){
+  .mast-principle{flex-direction:column;align-items:flex-start;gap:2px}
+  .mast-principle .mp-text{text-align:left;font-size:13px}
+}
+.masthead-inner{max-width:780px;margin:0 auto;display:flex;align-items:flex-end;gap:16px}
+.mast-meta{flex:1;min-width:0}
+.mast-vol{font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-3);display:flex;gap:14px;flex-wrap:wrap}
+.mast-vol b{color:var(--ink);font-weight:500}
+.mast-title{font-family:var(--font-display);font-size:30px;line-height:1;
+  letter-spacing:-.025em;margin-top:4px;font-weight:500}
+[data-theme="press"] .mast-title{font-family:var(--font-text);font-weight:900;
+  text-transform:uppercase;letter-spacing:-.02em}
+.mast-cd{display:flex;gap:14px;text-align:right;flex-shrink:0}
+.cd-block .n{font-family:var(--font-mono);font-size:24px;font-weight:500;
+  line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.cd-block .l{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);margin-top:3px}
+
+/* ============================================================
+   PAGE / TABS
+   ============================================================ */
+.tab-page{display:none;padding-top:18px;padding-bottom:24px}
 .tab-page.active{display:block}
 
-/* Panels */
-.panel{background:white;border-radius:14px;padding:18px 20px;margin-bottom:16px;
-  box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.panel h2{font-size:17px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.tab-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:60;
+  background:var(--bg);
+  border-top:1px solid var(--rule-2);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.tab-bar-inner{max-width:780px;margin:0 auto;display:flex}
+.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:11px 0 9px;color:var(--ink-3);font-family:var(--font-mono);
+  font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  position:relative;transition:color .18s}
+.tab-btn .glyph{font-family:var(--font-display);font-size:18px;font-style:italic;
+  font-weight:500;line-height:1}
+[data-theme="sport"] .tab-btn .glyph{font-family:var(--font-mono);font-style:normal}
+[data-theme="press"] .tab-btn .glyph{font-family:var(--font-text);font-weight:900;font-style:normal}
+.tab-btn.active{color:var(--ink)}
+.tab-btn.active::after{content:"";position:absolute;top:-1px;left:50%;
+  width:30px;height:2px;background:var(--accent);transform:translateX(-50%)}
 
-/* Goal cards */
-.goal-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
-.gcard{background:white;border-radius:14px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.gcard .lab{font-size:10px;color:#86868b;text-transform:uppercase;letter-spacing:.4px;font-weight:600}
-.gcard .val{font-size:22px;font-weight:700;margin-top:4px}
-.gcard .sub2{font-size:11px;color:#86868b;margin-top:2px}
+/* ============================================================
+   SECTION HEADERS
+   ============================================================ */
+.section-h{display:flex;align-items:baseline;justify-content:space-between;
+  gap:12px;margin:0 0 14px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.section-h h2{font-family:var(--font-display);font-size:22px;font-weight:500;
+  line-height:1.05;letter-spacing:-.015em}
+[data-theme="press"] .section-h h2{font-family:var(--font-text);
+  font-weight:900;text-transform:uppercase;letter-spacing:-.01em}
+.section-h .num{font-family:var(--font-mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3)}
 
-/* Today banner */
-.today-banner{background:linear-gradient(135deg,#007aff 0%,#5856d6 100%);color:white;
-  border-radius:16px;padding:16px 20px;margin-bottom:16px;box-shadow:0 4px 14px rgba(0,122,255,.25)}
-.today-banner .lab{font-size:10px;text-transform:uppercase;letter-spacing:1px;opacity:.8;font-weight:600}
-.today-banner .banner-row{display:flex;align-items:center;gap:12px;margin-top:8px}
-.today-banner .b-icon{font-size:28px;width:44px;height:44px;border-radius:12px;
-  background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.today-banner .b-title{font-size:16px;font-weight:600}
-.today-banner .b-detail{font-size:12px;opacity:.8;margin-top:2px}
+/* ============================================================
+   TODAY HERO — page-leading editorial card
+   ============================================================ */
+.hero-row{display:grid;grid-template-columns:1fr 156px;gap:14px;margin-bottom:12px;align-items:stretch}
+.today-hero{margin-bottom:0 !important}
+.ring-card{
+  background:transparent;border:0;border-radius:0;
+  padding:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:4px;position:relative;overflow:visible;
+}
+[data-theme="press"] .ring-card{border:0;background:transparent}
+[data-theme="sport"] .ring-card{border:0;background:transparent}
+.ring-card .eyebrow{font-family:var(--font-mono);font-size:9px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-3);align-self:flex-start}
+.ring-wrap{position:relative;width:124px;height:124px;margin:2px 0}
+.ring-wrap svg{width:100%;height:100%;display:block}
+.ring-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:22px;font-weight:600;letter-spacing:-.02em;
+  color:var(--ink);font-variant-numeric:tabular-nums}
+[data-theme="press"] .ring-pct{font-family:var(--font-text);font-weight:900}
+.ring-foot{font-family:var(--font-mono);font-size:9px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-3)}
+@media (max-width:480px){
+  .hero-row{grid-template-columns:1fr 128px;gap:10px}
+  .ring-wrap{width:104px;height:104px}
+  .ring-pct{font-size:19px}
+}
 
-/* Phase timeline */
-.timeline{display:flex;flex-direction:column;gap:8px}
-.tl-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;
-  background:white;border:1px solid #e5e5ea;transition:all .15s}
-.tl-item.current{border-color:#007aff;box-shadow:0 0 0 2px rgba(0,122,255,.15)}
-.tl-item.done{opacity:.6}
-.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.tl-info{flex:1;min-width:0}
-.tl-phase{font-size:13px;font-weight:600}
-.tl-dates{font-size:11px;color:#86868b}
-.tl-status{font-size:11px;font-weight:600;flex-shrink:0}
+.today-hero{
+  background:var(--ink);color:var(--bg);
+  padding:16px var(--pad) 14px;border-radius:var(--r-lg);
+  margin-bottom:12px;position:relative;overflow:hidden;
+}
+[data-theme="press"] .today-hero{border-radius:0;border:2px solid var(--ink);
+  background:var(--ink);color:var(--bg)}
+.today-hero .eyebrow{color:rgba(255,255,255,.55)}
+[data-theme="sport"] .today-hero{background:var(--accent);color:var(--accent-ink)}
+[data-theme="sport"] .today-hero .eyebrow{color:rgba(11,13,16,.6)}
+.today-hero .label-row{display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:8px;gap:10px}
+.today-hero .today-eyebrow{color:rgba(255,255,255,.6) !important}
+[data-theme="sport"] .today-hero .today-eyebrow{color:rgba(11,13,16,.6) !important}
+.today-hero .pill{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;padding:4px 9px;border-radius:999px;
+  background:rgba(255,255,255,.14);color:rgba(255,255,255,.85)}
+[data-theme="sport"] .today-hero .pill{background:rgba(11,13,16,.15);color:rgba(11,13,16,.75)}
+.today-hero h1{font-family:var(--font-display);font-size:24px;font-weight:500;
+  line-height:1.1;letter-spacing:-.02em;margin-bottom:4px}
+[data-theme="press"] .today-hero h1{font-family:var(--font-text);font-weight:900;
+  text-transform:uppercase;letter-spacing:-.01em;font-size:22px;line-height:1}
+.today-hero .detail{font-size:12px;opacity:.7;line-height:1.5;
+  font-family:var(--font-mono)}
+.today-hero .hero-foot{display:flex;gap:14px;margin-top:12px;padding-top:11px;
+  border-top:1px solid rgba(255,255,255,.18);align-items:flex-end;justify-content:space-between}
+[data-theme="sport"] .today-hero .hero-foot{border-top-color:rgba(11,13,16,.18)}
+.today-hero .hero-stats{display:flex;gap:18px}
+.today-hero .stat{display:flex;flex-direction:column;gap:1px}
+.today-hero .stat .v{font-family:var(--font-mono);font-size:14px;font-weight:500;
+  font-variant-numeric:tabular-nums}
+.today-hero .stat .k{font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;opacity:.6}
+.today-hero .jump{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:inherit;opacity:.85;
+  text-decoration:underline;text-underline-offset:3px;cursor:pointer;
+  flex-shrink:0;white-space:nowrap}
+.today-hero .jump:hover{opacity:1}
 
-/* Progress ring */
-.ring-wrap{text-align:center;margin:16px 0}
-.ring-wrap svg{width:120px;height:120px}
-.ring-text{font-size:22px;font-weight:700}
-.ring-label{font-size:11px;color:#86868b;margin-top:4px}
+/* ============================================================
+   QUOTE / BIG CALLOUT
+   ============================================================ */
+.bigquote{
+  font-family:var(--font-display);font-size:34px;line-height:1.12;
+  letter-spacing:-.02em;font-weight:400;font-style:italic;
+  padding:14px 0 18px;color:var(--ink);
+}
+[data-theme="press"] .bigquote{font-family:var(--font-text);font-weight:900;
+  text-transform:uppercase;letter-spacing:-.01em;font-style:normal;line-height:.96}
+.bigquote .accent{color:var(--accent)}
+.bigquote .small{display:block;font-family:var(--font-mono);font-size:10.5px;
+  letter-spacing:.16em;text-transform:uppercase;font-style:normal;
+  font-weight:500;color:var(--ink-3);margin-top:14px}
 
-/* Week list */
-.week-card{background:white;border-radius:14px;margin-bottom:12px;
-  box-shadow:0 1px 3px rgba(0,0,0,.05);overflow:hidden}
-.week-header{display:flex;align-items:center;padding:14px 16px;cursor:pointer;gap:10px;
-  transition:background .15s}
-.week-header:hover{background:#fafafa}
-.week-header.current{background:#fffbeb}
-.wh-week{font-size:14px;font-weight:700;width:36px;flex-shrink:0}
-.wh-phase{font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;flex-shrink:0}
+/* ============================================================
+   GOAL TABLE — figures-style stat grid
+   ============================================================ */
+.figures{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border:1px solid var(--rule);border-radius:var(--r-md);
+  margin-bottom:12px;overflow:hidden;background:var(--bg-elev);
+}
+[data-theme="press"] .figures{border-radius:0;border-color:var(--ink);border-width:2px;
+  background:var(--bg)}
+[data-theme="sport"] .figures{background:var(--bg-elev);border-color:var(--rule)}
+.fig{padding:11px 12px;border-right:1px solid var(--rule)}
+.fig:last-child{border-right:0}
+[data-theme="press"] .fig{border-color:var(--ink)}
+.fig .k{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:500}
+.fig .v{font-family:var(--font-display);font-size:22px;line-height:1;
+  font-weight:500;letter-spacing:-.02em;margin-top:4px;color:var(--ink)}
+[data-theme="sport"] .fig .v{font-family:var(--font-mono);font-weight:500;letter-spacing:-.02em}
+[data-theme="press"] .fig .v{font-family:var(--font-text);font-weight:900;letter-spacing:-.01em}
+.fig .v small{font-family:var(--font-mono);font-size:11px;font-weight:500;
+  letter-spacing:0;color:var(--ink-3);margin-left:2px}
+.fig .s{font-family:var(--font-mono);font-size:10px;color:var(--ink-3);margin-top:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ============================================================
+   PROGRESS BAR — horizontal phase track
+   ============================================================ */
+.phase-track{
+  margin-bottom:12px;
+  background:var(--bg-elev);
+  border:1px solid var(--rule);
+  border-radius:var(--r-md);
+  padding:14px 16px;
+}
+[data-theme="press"] .phase-track{border:2px solid var(--ink);border-radius:0;background:var(--bg)}
+.pt-head{display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:10px}
+.pt-head .pct{font-family:var(--font-display);font-size:24px;font-weight:500;
+  letter-spacing:-.02em;color:var(--accent);line-height:1}
+[data-theme="sport"] .pt-head .pct{font-family:var(--font-mono);font-weight:500}
+[data-theme="press"] .pt-head .pct{font-family:var(--font-text);font-weight:900}
+
+.pt-bar{display:grid;grid-template-columns:4fr 4fr 5fr 3fr 3fr;gap:3px;
+  height:24px;margin-bottom:6px}
+.pt-seg{position:relative;background:var(--bg-sunk);border-radius:3px;overflow:hidden}
+[data-theme="press"] .pt-seg{border-radius:0;border:1px solid var(--ink);background:var(--bg)}
+.pt-seg .fill{position:absolute;inset:0 100% 0 0;background:var(--seg-c,var(--ink-3));
+  transition:right .5s cubic-bezier(.2,.8,.2,1)}
+.pt-seg.current{outline:2px solid var(--accent);outline-offset:1px}
+.pt-seg .lbl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink);mix-blend-mode:normal;z-index:2;font-weight:500}
+.pt-seg.current .lbl::after{content:"●";color:var(--accent);margin-left:5px}
+
+.pt-foot{display:flex;justify-content:space-between;font-family:var(--font-mono);
+  font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+
+/* ============================================================
+   PHASE LIST (legend)
+   ============================================================ */
+.phase-list{display:flex;flex-direction:column;gap:0;
+  border-top:1px solid var(--rule);margin-top:10px;padding-top:6px}
+.phase-row{display:flex;align-items:center;gap:12px;padding:6px 0;
+  border-bottom:1px solid var(--rule)}
+.phase-row:last-child{border-bottom:0}
+.phase-row .glyph{width:18px;height:18px;color:var(--seg-c);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center}
+.phase-row .glyph svg{width:100%;height:100%;display:block}
+.phase-row.done .glyph{opacity:.45}
+.phase-row .name{font-family:var(--font-display);font-size:13.5px;font-weight:500;
+  letter-spacing:-.01em;flex:1}
+[data-theme="press"] .phase-row .name{font-family:var(--font-text);font-weight:700;
+  text-transform:uppercase;letter-spacing:0;font-size:13px}
+.phase-row .dates{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3)}
+.phase-row .status{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3);min-width:64px;text-align:right}
+.phase-row.current .status{color:var(--accent)}
+.phase-row.done .name{color:var(--ink-3)}
+.phase-row.done .status{color:var(--ink-4)}
+
+/* ============================================================
+   WEEK CARDS
+   ============================================================ */
+.week-list{display:flex;flex-direction:column;gap:8px}
+.week-card{
+  background:var(--bg-elev);
+  border:1px solid var(--rule);
+  border-radius:var(--r-md);
+  overflow:hidden;
+  transition:border-color .15s;
+}
+[data-theme="press"] .week-card{border:2px solid var(--ink);border-radius:0;
+  background:var(--bg)}
+.week-card.current{border-color:var(--accent)}
+[data-theme="press"] .week-card.current{background:var(--accent-soft);color:var(--bg)}
+[data-theme="press"] .week-card.current *{color:var(--bg) !important}
+.week-card.travel{
+  border:2px dashed var(--c-travel);
+  background:linear-gradient(180deg,rgba(217,119,6,.05) 0%,var(--bg-elev) 60%);
+}
+[data-theme="sport"] .week-card.travel{
+  background:linear-gradient(180deg,rgba(251,146,60,.07) 0%,var(--bg-elev) 60%);
+}
+[data-theme="press"] .week-card.travel{border-style:dashed;border-color:var(--ink);background:var(--bg)}
+.week-card.travel .wh-num{color:var(--c-travel)}
+.week-card.travel .travel-badge{
+  display:inline-block;font-family:var(--font-mono);font-size:9.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--c-travel);
+  font-weight:600;margin-right:6px;
+  padding:2px 6px;border:1px solid var(--c-travel);border-radius:3px;
+}
+[data-theme="press"] .week-card.travel .travel-badge{border-radius:0;
+  border-color:var(--ink);color:var(--ink)}
+
+.wh{display:flex;align-items:center;gap:14px;padding:14px var(--pad);cursor:pointer;
+  user-select:none}
+.wh-num{font-family:var(--font-display);font-size:26px;font-weight:500;
+  line-height:1;letter-spacing:-.03em;width:42px;flex-shrink:0;color:var(--ink)}
+[data-theme="sport"] .wh-num{font-family:var(--font-mono);font-weight:500}
+[data-theme="press"] .wh-num{font-family:var(--font-text);font-weight:900}
+.wh-num small{font-family:var(--font-mono);font-size:9px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);display:block;font-weight:500;margin-bottom:2px}
 .wh-info{flex:1;min-width:0}
-.wh-title{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.wh-dates{font-size:11px;color:#86868b}
-.wh-right{text-align:right;flex-shrink:0}
-.wh-km{font-size:13px;font-weight:600}
-.wh-bar{width:60px;height:4px;background:#e5e5ea;border-radius:2px;margin-top:4px}
-.wh-bar-fill{height:100%;border-radius:2px;background:#34c759;transition:width .3s}
-.wh-caret{color:#86868b;font-size:12px;transition:transform .2s;flex-shrink:0}
-.week-header.expanded .wh-caret{transform:rotate(180deg)}
+.wh-phase{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--seg-c,var(--ink-3));font-weight:500;margin-bottom:4px}
+.wh-title{font-family:var(--font-display);font-size:15px;font-weight:500;
+  letter-spacing:-.01em;line-height:1.25;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+[data-theme="press"] .wh-title{font-family:var(--font-text);font-weight:700;letter-spacing:0}
+.wh-dates{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3);margin-top:2px}
+.wh-right{text-align:right;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.wh-km{font-family:var(--font-mono);font-size:13px;color:var(--ink);font-weight:500}
+.wh-bar{width:62px;height:3px;background:var(--bg-sunk);border-radius:2px;overflow:hidden}
+[data-theme="press"] .wh-bar{border-radius:0;border:1px solid var(--ink);background:var(--bg);height:5px}
+.wh-bar-fill{height:100%;background:var(--accent);transition:width .3s}
+.wh-caret{color:var(--ink-3);transition:transform .2s;font-size:11px;flex-shrink:0;
+  font-family:var(--font-mono)}
+.wh.expanded .wh-caret{transform:rotate(180deg)}
 
-.week-body{display:none;padding:0 14px 14px}
+.week-body{display:none;padding:0 var(--pad) 16px}
 .week-body.open{display:block}
+.week-body-grid{display:flex;flex-direction:column;gap:0;
+  border-top:1px solid var(--rule);padding-top:6px}
 
-/* Day rows */
-.day-row{border:1px solid #e5e5ea;border-left:4px solid var(--cat-color,#e5e5ea);
-  border-radius:10px;margin-bottom:6px;transition:all .15s}
-.day-row:hover{box-shadow:0 2px 8px rgba(0,0,0,.05)}
-.day-row.done{background:#f0fdf4;border-color:#86efac;border-left-color:#15803d}
-.day-row.done .d-title{text-decoration:line-through;color:#15803d}
-.day-row.today{box-shadow:0 0 0 2px rgba(0,122,255,.2)}
-.day-row.past:not(.done):not(.today){opacity:.5}
-.day-row-inner{display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer}
-.day-row input[type=checkbox]{width:20px;height:20px;accent-color:#34c759;cursor:pointer;flex-shrink:0}
-.d-dow{width:32px;text-align:center;flex-shrink:0}
-.d-dow-name{font-size:13px;font-weight:600}
-.d-dow-date{font-size:10px;color:#86868b}
-.d-icon{width:32px;height:32px;border-radius:8px;background:var(--cat-bg);
-  display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+/* ------ Day rows ------ */
+.day{
+  display:flex;align-items:center;gap:0;padding:11px 0;
+  border-bottom:1px solid var(--rule);position:relative;cursor:pointer;
+  transition:opacity .15s;
+}
+.day:last-child{border-bottom:0}
+.day.past{opacity:.4}
+.day.past.today{opacity:1}
+.day.done .d-title{text-decoration:line-through;color:var(--ink-3)}
+.day.today{background:var(--accent-soft);margin:0 -8px;padding:11px 8px;border-radius:4px}
+[data-theme="press"] .day.today{background:transparent;border-left:3px solid var(--accent);
+  margin:0;padding-left:8px}
+
+.d-check{
+  width:18px;height:18px;border:1.5px solid var(--ink-3);border-radius:50%;
+  margin-right:14px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+}
+[data-theme="press"] .d-check{border-radius:0;border-width:1.5px;border-color:var(--ink)}
+.day.done .d-check{background:var(--accent);border-color:var(--accent)}
+.day.done .d-check::after{content:"";width:8px;height:5px;
+  border-left:1.5px solid var(--accent-ink);border-bottom:1.5px solid var(--accent-ink);
+  transform:rotate(-45deg) translate(0,-1px)}
+
+.d-dow{width:32px;flex-shrink:0;text-align:center}
+.d-dow .name{font-family:var(--font-display);font-size:14px;font-weight:500;
+  letter-spacing:-.01em;line-height:1;color:var(--ink)}
+[data-theme="sport"] .d-dow .name{font-family:var(--font-mono)}
+[data-theme="press"] .d-dow .name{font-family:var(--font-text);font-weight:700}
+.d-dow .date{font-family:var(--font-mono);font-size:9.5px;color:var(--ink-3);margin-top:2px;
+  font-variant-numeric:tabular-nums}
+
+.d-tag{
+  width:3px;align-self:stretch;background:var(--cat-c);
+  margin:0 14px;flex-shrink:0;border-radius:2px;
+}
+[data-theme="press"] .d-tag{border-radius:0;width:4px}
+
 .d-content{flex:1;min-width:0}
-.d-title-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.d-title{font-size:13px;font-weight:600}
-.d-cat{font-size:9px;padding:2px 6px;border-radius:5px;background:var(--cat-bg);
-  color:var(--cat-color);font-weight:700}
-.d-detail{font-size:11px;color:#64748b;margin-top:2px}
-.week-note{margin-top:8px;padding:8px 12px;background:#f8fafc;border-radius:8px;
-  font-size:12px;color:#64748b;border:1px solid #e5e5ea}
+.d-title{font-family:var(--font-text);font-size:14px;font-weight:500;
+  color:var(--ink);line-height:1.3}
+.d-detail{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);
+  margin-top:2px;line-height:1.4}
 
-/* Travel week */
-.week-card.travel{border:2px dashed #f59e0b}
-.week-card.travel .wh-phase{background:#fef3c7;color:#92400e}
+.d-cat{
+  font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--cat-c);font-weight:500;margin-left:auto;padding-left:10px;
+  flex-shrink:0;
+}
 
-/* Training types */
-.ttype{border-radius:12px;padding:16px;margin-bottom:10px;border-left:4px solid}
-.ttype h3{font-size:15px;margin-bottom:6px}
-.ttype table{width:100%;font-size:12px;border-collapse:collapse}
-.ttype td{padding:4px 8px;border-bottom:1px solid rgba(0,0,0,.06);vertical-align:top}
-.ttype td:first-child{font-weight:600;color:#86868b;width:60px}
-.ttype .warn{margin-top:8px;padding:6px 10px;background:rgba(255,255,255,.7);
-  border-radius:6px;font-size:11px;color:#7f1d1d}
+.week-note{margin-top:12px;padding:11px 13px;background:var(--bg-sunk);
+  border-radius:var(--r-sm);font-size:12.5px;line-height:1.55;color:var(--ink-2);
+  font-family:var(--font-text)}
+[data-theme="press"] .week-note{border:1px solid var(--ink);border-radius:0;background:var(--bg)}
+.week-note b{font-weight:600}
 
-/* Pace zones table */
-.zone-table{width:100%;border-collapse:collapse;font-size:12.5px}
-.zone-table th,.zone-table td{padding:8px 10px;border-bottom:1px solid #e5e5ea;text-align:left}
-.zone-table th{font-size:10px;color:#86868b;text-transform:uppercase;font-weight:600}
+/* ============================================================
+   GUIDE — training types (editorial article cards)
+   ============================================================ */
+.article{
+  background:var(--bg-elev);
+  border:1px solid var(--rule);border-radius:var(--r-md);
+  padding:22px var(--pad);margin-bottom:12px;
+  position:relative;
+}
+[data-theme="press"] .article{border:2px solid var(--ink);border-radius:0;background:var(--bg)}
+.art-tag{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--art-c,var(--accent));font-weight:600;
+  margin-bottom:8px;display:block}
+.art-h{font-family:var(--font-display);font-size:24px;font-weight:500;
+  letter-spacing:-.02em;line-height:1.1;margin-bottom:6px;color:var(--ink)}
+[data-theme="press"] .art-h{font-family:var(--font-text);font-weight:900;
+  text-transform:uppercase;letter-spacing:-.01em}
+.art-lead{font-family:var(--font-text);font-size:13.5px;color:var(--ink-2);
+  line-height:1.55;margin-bottom:14px}
 
-/* Exercise table */
-.ex-table{width:100%;border-collapse:collapse;font-size:12.5px}
-.ex-table th,.ex-table td{padding:6px 8px;border-bottom:1px solid #e5e5ea;text-align:left}
-.ex-table th{font-size:10px;color:#86868b;font-weight:600}
+.art-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px}
+.art-table td{padding:7px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+.art-table tr:last-child td{border-bottom:0}
+.art-table td:first-child{font-family:var(--font-mono);font-size:10px;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+  width:80px;padding-right:14px;font-weight:500}
+.art-table td:last-child{color:var(--ink)}
+.art-table b{font-weight:600;color:var(--art-c,var(--ink))}
 
-/* Checklist */
-.checklist{list-style:none;padding:0}
-.checklist li{padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:13px;display:flex;align-items:center;gap:8px}
-.checklist li::before{content:'☐';font-size:16px;color:#86868b}
+.art-warn{margin-top:14px;padding:10px 13px;
+  background:var(--bg-sunk);border-left:3px solid var(--art-c,var(--accent));
+  font-size:12px;line-height:1.5;color:var(--ink-2);font-family:var(--font-text)}
+[data-theme="press"] .art-warn{background:var(--bg);border:1px solid var(--ink);border-left-width:6px}
 
-/* Race pace table */
-.race-table{width:100%;border-collapse:collapse;font-size:13px}
-.race-table th,.race-table td{padding:8px 10px;border-bottom:1px solid #e5e5ea;text-align:left}
-.race-table th{font-size:10px;color:#86868b;text-transform:uppercase;font-weight:600}
+/* Pace zone bands */
+.zone-band{display:flex;flex-direction:column;
+  border:1px solid var(--rule);border-radius:var(--r-md);overflow:hidden;background:var(--bg-elev)}
+[data-theme="press"] .zone-band{border:2px solid var(--ink);border-radius:0;background:var(--bg)}
+.zone-row{display:grid;grid-template-columns:60px 1fr 90px;gap:14px;
+  padding:13px 18px;align-items:center;border-bottom:1px solid var(--rule)}
+.zone-row:last-child{border-bottom:0}
+.zone-row .z{font-family:var(--font-display);font-size:20px;font-weight:500;
+  letter-spacing:-.02em;color:var(--zc)}
+[data-theme="sport"] .zone-row .z{font-family:var(--font-mono)}
+[data-theme="press"] .zone-row .z{font-family:var(--font-text);font-weight:900}
+.zone-row .desc{display:flex;flex-direction:column;gap:1px}
+.zone-row .desc b{font-family:var(--font-text);font-size:13px;font-weight:600;color:var(--ink)}
+.zone-row .desc span{font-family:var(--font-mono);font-size:11px;color:var(--ink-3)}
+.zone-row .pace{font-family:var(--font-mono);font-size:13px;color:var(--ink);
+  font-weight:500;text-align:right}
 
-.small{font-size:12px;color:#86868b}
-.reset-btn{background:#fee2e2;color:#dc2626;border:none;border-radius:8px;padding:4px 10px;
-  font-size:11px;cursor:pointer;font-weight:600;margin-left:8px}
-.reset-btn:hover{background:#fecaca}
-.tip-box{padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;
-  font-size:12px;margin-bottom:12px}
-.warn-box{padding:10px 14px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;
-  font-size:12px;margin-bottom:12px;color:#7f1d1d}
+/* Generic exercise tables */
+.list-table{width:100%;border-collapse:collapse;font-size:13px;
+  background:var(--bg-elev);border:1px solid var(--rule);border-radius:var(--r-md);
+  overflow:hidden}
+[data-theme="press"] .list-table{border:2px solid var(--ink);border-radius:0;background:var(--bg)}
+.list-table th,.list-table td{padding:10px 16px;text-align:left;
+  border-bottom:1px solid var(--rule);vertical-align:top}
+.list-table tr:last-child td{border-bottom:0}
+.list-table th{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:500;
+  background:var(--bg-sunk)}
+[data-theme="press"] .list-table th{border-bottom:2px solid var(--ink)}
 
-/* SOP table */
-.sop-table{width:100%;border-collapse:collapse;font-size:13px}
-.sop-table td{padding:8px 10px;border-bottom:1px solid #e5e5ea;vertical-align:top}
-.sop-table td:first-child{font-weight:600;width:35%;color:#64748b}
+.checklist{list-style:none;padding:0;margin:0}
+.checklist li{padding:11px 0;border-bottom:1px solid var(--rule);
+  font-size:13.5px;display:flex;align-items:center;gap:12px;line-height:1.4}
+.checklist li:last-child{border-bottom:0}
+.checklist li::before{content:"";width:16px;height:16px;border:1.5px solid var(--ink-3);
+  flex-shrink:0;display:inline-block;border-radius:3px}
+[data-theme="press"] .checklist li::before{border-radius:0;border-color:var(--ink)}
 
-@media(max-width:600px){
-  .wrap{padding:16px 12px 24px}
-  .app-header h1{font-size:20px}
-  .goal-cards{grid-template-columns:repeat(2,1fr);gap:8px}
-  .gcard .val{font-size:18px}
-  .day-row-inner{gap:8px;padding:8px 10px}
-  .d-icon{width:28px;height:28px;font-size:14px}
-  .wh-bar{width:45px}
+/* ============================================================
+   ACTIONS / MISC
+   ============================================================ */
+.actions{display:flex;gap:8px;align-items:center}
+.btn-ghost{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);padding:6px 10px;
+  border:1px solid var(--rule-2);border-radius:var(--r-sm);background:var(--bg-elev);
+  transition:all .15s}
+.btn-ghost:hover{color:var(--ink);border-color:var(--ink-3)}
+[data-theme="press"] .btn-ghost{border-radius:0;border-color:var(--ink);color:var(--ink)}
+
+.danger{color:var(--accent) !important;border-color:var(--accent) !important}
+
+.small{font-size:12px;color:var(--ink-3);line-height:1.55}
+.lead{font-family:var(--font-display);font-size:17px;line-height:1.45;
+  color:var(--ink-2);font-weight:400;margin-bottom:18px;letter-spacing:-.005em}
+[data-theme="press"] .lead{font-family:var(--font-text);font-weight:500;letter-spacing:0}
+
+.tip{padding:11px 14px;background:var(--bg-sunk);border-left:3px solid var(--accent);
+  font-size:12.5px;line-height:1.55;color:var(--ink-2);margin:12px 0;
+  font-family:var(--font-text)}
+[data-theme="press"] .tip{background:var(--bg);border:1px solid var(--ink);border-left-width:6px}
+
+.warn{padding:11px 14px;background:var(--bg-sunk);border-left:3px solid var(--c-race);
+  font-size:12.5px;line-height:1.55;color:var(--ink-2);margin:12px 0;
+  font-family:var(--font-text)}
+[data-theme="press"] .warn{background:var(--bg);border:1px solid var(--ink);border-left-width:6px}
+
+.race-strategy{display:flex;flex-direction:column;gap:0;margin-top:12px}
+.rs-row{display:grid;grid-template-columns:80px 1fr 80px;gap:14px;align-items:center;
+  padding:12px 0;border-bottom:1px solid var(--rule)}
+.rs-row:last-child{border-bottom:0}
+.rs-seg{font-family:var(--font-display);font-size:16px;font-weight:500;
+  letter-spacing:-.01em;color:var(--ink)}
+[data-theme="press"] .rs-seg{font-family:var(--font-text);font-weight:700;text-transform:uppercase}
+.rs-dist{font-family:var(--font-mono);font-size:10.5px;color:var(--ink-3);margin-top:2px}
+.rs-pace{font-family:var(--font-mono);font-size:14px;color:var(--accent);font-weight:500;text-align:right}
+.rs-strat{font-family:var(--font-text);font-size:12.5px;color:var(--ink-2);line-height:1.4}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:560px){
+  .mast-title{font-size:22px}
+  .cd-block .n{font-size:18px}
+  .today-hero h1{font-size:24px}
+  .bigquote{font-size:24px}
+  .figures{grid-template-columns:repeat(2,1fr)}
+  .fig{padding:13px 14px}
+  .fig .v{font-size:24px}
+  .pt-head .pct{font-size:22px}
+  .wh-num{font-size:22px;width:36px}
+  .art-h{font-size:20px}
+  .zone-row{grid-template-columns:48px 1fr 78px;padding:11px 14px;gap:10px}
+  .zone-row .z{font-size:16px}
+  .rs-row{grid-template-columns:64px 1fr 70px;gap:10px}
+  .d-dow{width:28px}
+  .d-tag{margin:0 10px}
+  .d-cat{display:none}
 }
