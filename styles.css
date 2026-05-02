@@ -587,7 +587,7 @@ input,select,textarea{font:inherit;color:inherit}
   display:flex;align-items:baseline;justify-content:space-between;
   gap:12px;margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid var(--rule-2);
 }
-.page-title{font-family:var(--font-display);font-size:28px;font-weight:500;
+.page-title{font-family:var(--font-display);font-size:34px;font-weight:500;
   line-height:1;letter-spacing:-.02em;margin:0}
 [data-theme="press"] .page-title{font-family:var(--font-text);font-weight:900;
   text-transform:uppercase;letter-spacing:-.01em}
@@ -621,45 +621,47 @@ input,select,textarea{font:inherit;color:inherit}
 /* Mobile compact — fit Today page in one viewport */
 @media(max-width:480px){
   .masthead{padding:12px var(--pad) 0}
-  .mast-title{font-size:22px}
-  .mast-vol{font-size:9px;gap:10px}
-  .cd-block .n{font-size:18px}
-  .cd-block .l{font-size:8.5px}
-  .mast-principle{padding:6px 0 8px;margin-top:8px}
-  .mast-principle .mp-label{font-size:8.5px}
-  .mast-principle .mp-text{font-size:13px}
+  .mast-title{font-size:26px}
+  .mast-vol{font-size:9.5px;gap:10px}
+  .cd-block .n{font-size:20px}
+  .cd-block .l{font-size:9px}
+  .mast-principle{padding:8px 0 10px;margin-top:8px}
+  .mast-principle .mp-label{font-size:9px}
+  .mast-principle .mp-text{font-size:13.5px}
 
-  #page-today{padding-top:12px;padding-bottom:12px}
-  .hero-row{grid-template-columns:1fr 120px;gap:10px;margin-bottom:10px}
-  .today-hero{padding:14px 16px 12px}
+  #page-today{padding-top:14px;padding-bottom:14px}
+  .hero-row{grid-template-columns:1fr 130px;gap:12px;margin-bottom:12px}
+  .today-hero{padding:16px 16px 14px}
   .today-hero .label-row{margin-bottom:6px}
-  .today-hero h1{font-size:20px}
-  .today-hero .detail{font-size:11.5px}
-  .today-hero .hero-foot{margin-top:10px;padding-top:10px}
-  .today-hero .stat .v{font-size:13px}
-  .today-hero .stat .k{font-size:8.5px}
-  .today-hero .jump{font-size:9.5px}
-  .ring-wrap{width:96px;height:96px}
-  .ring-pct{font-size:18px}
-  .ring-card .eyebrow{font-size:8.5px}
-  .ring-foot{font-size:8.5px}
+  .today-hero h1{font-size:22px}
+  .today-hero .detail{font-size:12px}
+  .today-hero .hero-foot{margin-top:12px;padding-top:10px}
+  .today-hero .stat .v{font-size:14px}
+  .today-hero .stat .k{font-size:9px}
+  .today-hero .jump{font-size:10px}
+  .ring-wrap{width:110px;height:110px}
+  .ring-pct{font-size:20px}
+  .ring-card .eyebrow{font-size:9px}
+  .ring-foot{font-size:9px}
 
-  .figures{margin-bottom:10px}
-  .fig{padding:10px 12px}
-  .fig .k{font-size:9px}
-  .fig .v{font-size:20px}
+  .figures{margin-bottom:12px}
+  .fig{padding:12px 14px}
+  .fig .k{font-size:9.5px}
+  .fig .v{font-size:22px}
 
-  .phase-track{padding:12px 14px;margin-bottom:10px}
-  .pt-head{margin-bottom:8px}
-  .pt-head .pct{font-size:20px}
-  .pt-head .eyebrow{font-size:9.5px}
-  .pt-head .serif{font-size:16px !important}
-  .pt-bar{height:22px;margin-bottom:5px}
-  .pt-seg .lbl{font-size:8.5px;letter-spacing:.08em}
-  .phase-list{margin-top:8px;padding-top:6px}
-  .phase-row{padding:5px 0;gap:10px}
-  .phase-row .name{font-size:13px}
-  .phase-row .dates{font-size:10px}
-  .phase-row .status{font-size:9.5px;min-width:52px}
+  .phase-track{padding:14px 16px;margin-bottom:12px}
+  .pt-head{margin-bottom:10px}
+  .pt-head .pct{font-size:22px}
+  .pt-head .eyebrow{font-size:10px}
+  .pt-head .serif{font-size:17px !important}
+  .pt-bar{height:24px;margin-bottom:6px}
+  .pt-seg .lbl{font-size:9px;letter-spacing:.08em}
+  .phase-list{margin-top:10px;padding-top:6px}
+  .phase-row{padding:6px 0;gap:12px}
+  .phase-row .name{font-size:14px}
+  .phase-row .dates{font-size:10.5px}
+  .phase-row .status{font-size:10px;min-width:54px}
   .phase-row .glyph{width:16px;height:16px}
+
+  .page-title{font-size:28px}
 }
