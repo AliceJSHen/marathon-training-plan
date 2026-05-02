@@ -42,6 +42,9 @@ function switchTab(name){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   document.querySelector(`[data-tab="${name}"]`).classList.add('active');
+  // Show masthead only on Today tab
+  const mast = document.querySelector('.masthead');
+  if (mast) mast.style.display = (name === 'today') ? '' : 'none';
   window.scrollTo({top:0});
 }
 

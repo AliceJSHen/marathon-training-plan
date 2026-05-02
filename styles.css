@@ -581,17 +581,32 @@ input,select,textarea{font:inherit;color:inherit}
 .rs-strat{font-family:var(--font-text);font-size:12.5px;color:var(--ink-2);line-height:1.4}
 
 /* ============================================================
+   PAGE TITLE BAR — for non-Today pages
+   ============================================================ */
+.page-title-bar{
+  display:flex;align-items:baseline;justify-content:space-between;
+  gap:12px;margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid var(--rule-2);
+}
+.page-title{font-family:var(--font-display);font-size:28px;font-weight:500;
+  line-height:1;letter-spacing:-.02em;margin:0}
+[data-theme="press"] .page-title{font-family:var(--font-text);font-weight:900;
+  text-transform:uppercase;letter-spacing:-.01em}
+.page-sub{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:500}
+
+/* ============================================================
    RESPONSIVE
    ============================================================ */
 @media(max-width:560px){
   .mast-title{font-size:22px}
   .cd-block .n{font-size:18px}
-  .today-hero h1{font-size:24px}
+  .today-hero h1{font-size:20px}
   .bigquote{font-size:24px}
   .figures{grid-template-columns:repeat(2,1fr)}
-  .fig{padding:13px 14px}
-  .fig .v{font-size:24px}
-  .pt-head .pct{font-size:22px}
+  .fig{padding:10px 12px}
+  .fig .v{font-size:20px}
+  .fig .s{display:none}
+  .pt-head .pct{font-size:20px}
   .wh-num{font-size:22px;width:36px}
   .art-h{font-size:20px}
   .zone-row{grid-template-columns:48px 1fr 78px;padding:11px 14px;gap:10px}
@@ -600,4 +615,51 @@ input,select,textarea{font:inherit;color:inherit}
   .d-dow{width:28px}
   .d-tag{margin:0 10px}
   .d-cat{display:none}
+  .page-title{font-size:24px}
+}
+
+/* Mobile compact — fit Today page in one viewport */
+@media(max-width:480px){
+  .masthead{padding:10px var(--pad) 0}
+  .mast-title{font-size:20px}
+  .mast-vol{font-size:9px;gap:10px}
+  .cd-block .n{font-size:16px}
+  .cd-block .l{font-size:8.5px}
+  .mast-principle{padding:6px 0 8px;margin-top:6px}
+  .mast-principle .mp-label{font-size:8.5px}
+  .mast-principle .mp-text{font-size:12px}
+
+  #page-today{padding-top:10px;padding-bottom:10px}
+  .hero-row{grid-template-columns:1fr 100px;gap:8px;margin-bottom:8px}
+  .today-hero{padding:12px 14px 10px}
+  .today-hero .label-row{margin-bottom:4px}
+  .today-hero h1{font-size:18px}
+  .today-hero .detail{font-size:11px}
+  .today-hero .hero-foot{margin-top:8px;padding-top:8px}
+  .today-hero .stat .v{font-size:12px}
+  .today-hero .stat .k{font-size:8px}
+  .today-hero .jump{font-size:9px}
+  .ring-wrap{width:80px;height:80px}
+  .ring-pct{font-size:16px}
+  .ring-card .eyebrow{font-size:8px}
+  .ring-foot{font-size:8px}
+
+  .figures{margin-bottom:8px}
+  .fig{padding:8px 10px}
+  .fig .k{font-size:8.5px}
+  .fig .v{font-size:18px}
+
+  .phase-track{padding:10px 12px;margin-bottom:8px}
+  .pt-head{margin-bottom:6px}
+  .pt-head .pct{font-size:18px}
+  .pt-head .eyebrow{font-size:9px}
+  .pt-head .serif{font-size:15px !important}
+  .pt-bar{height:20px;margin-bottom:4px}
+  .pt-seg .lbl{font-size:8px;letter-spacing:.06em}
+  .phase-list{margin-top:6px;padding-top:4px}
+  .phase-row{padding:4px 0;gap:8px}
+  .phase-row .name{font-size:12px}
+  .phase-row .dates{font-size:9px}
+  .phase-row .status{font-size:9px;min-width:48px}
+  .phase-row .glyph{width:14px;height:14px}
 }
