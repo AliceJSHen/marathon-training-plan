@@ -2,8 +2,8 @@
 <html lang="zh-Hant" data-theme="editorial" data-density="regular"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Marathon Quarterly · Sub-3 / 9.20</title>
-<meta name="description" content="20 週半程馬拉松訓練計畫，目標 2026/09/20 完賽 sub-3:00">
+<title>The Marathon Quarterly · Sub-3 / 10.25</title>
+<meta name="description" content="9 週半程馬拉松訓練計畫：2026/09/20 首戰演練 → 2026/10/25 主場 sub-3:00">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="半馬訓練">
@@ -54,7 +54,7 @@
   <div class="masthead-inner">
     <div class="mast-meta">
       <div class="mast-vol">
-        <span>Sub-3 · 9/20</span>
+        <span>Sub-3 · 10/25</span>
       </div>
       <div class="mast-title serif">The Marathon Quarterly</div>
     </div>
@@ -92,23 +92,23 @@
     </div>
 
     <div class="figures">
-      <div class="fig"><div class="k">Goal Time</div><div class="v">2:59<small>:59</small></div><div class="s">sub-three hours</div></div>
-      <div class="fig"><div class="k">Race Pace</div><div class="v">8:30<small>/km</small></div><div class="s">21.1 km @ ~8:30</div></div>
-      <div class="fig"><div class="k">Peak Volume</div><div class="v">42<small> km</small></div><div class="s">Week 14</div></div>
-      <div class="fig"><div class="k">Longest Run</div><div class="v">20<small> km</small></div><div class="s">Week 14</div></div>
+      <div class="fig"><div class="k">Goal Time</div><div class="v">2:59<small>:59</small></div><div class="s">10/25 主場目標</div></div>
+      <div class="fig"><div class="k">Race Pace</div><div class="v">8:30<small>/km</small></div><div class="s">跑 9 走 1 的均速</div></div>
+      <div class="fig"><div class="k">Peak Volume</div><div class="v">31<small> km</small></div><div class="s">Week 8</div></div>
+      <div class="fig"><div class="k">Longest Run</div><div class="v">18<small> km</small></div><div class="s">Week 8 · 10/18</div></div>
     </div>
 
     <div class="phase-track">
       <div class="pt-head">
         <div>
-          <div class="eyebrow">Programme · 20 weeks</div>
-          <div class="serif" style="font-size:18px;margin-top:2px">May → September</div>
+          <div class="eyebrow">Programme · 9 weeks</div>
+          <div class="serif" style="font-size:18px;margin-top:2px">August → October</div>
         </div>
         <div class="pct" id="pt-pct">0%</div>
       </div>
       <div class="pt-bar" id="phase-track-bar"></div>
       <div class="pt-foot">
-        <span>05/04</span><span>09/20</span>
+        <span>08/27</span><span>10/25</span>
       </div>
       <div id="phase-list" class="phase-list"></div>
     </div>
@@ -120,8 +120,13 @@
   <div class="wrap">
     <div class="page-title-bar">
       <h1 class="page-title serif">Schedule</h1>
-      <button class="btn-ghost danger" onclick="resetAll()">Reset</button>
+      <div class="title-actions">
+        <button class="btn-ghost" onclick="backupProgress()">備份</button>
+        <button class="btn-ghost" onclick="restoreProgress()">還原</button>
+        <button class="btn-ghost danger" onclick="resetAll()">Reset</button>
+      </div>
     </div>
+    <div class="tip" style="margin:0 0 16px">打勾紀錄只存在這台裝置的瀏覽器裡。<b>更新課表不會清掉它</b>，但換手機或清瀏覽器資料會。偶爾按一下「備份」，把那段文字貼到 Notion 存著。</div>
     <div id="week-list" class="week-list"></div>
   </div>
 </section>
@@ -226,7 +231,7 @@
       </div>
     </div>
 
-    <div class="section-h" style="margin-top:32px"><h2>居家肌力 A 套</h2><span class="num">奇數週</span></div>
+    <div class="section-h" style="margin-top:32px"><h2>居家肌力 A 套</h2><span class="num">見課表</span></div>
     <p class="lead">瑜伽墊即可，全程 25–30 分鐘。組間休息 30–45 秒。</p>
     <table class="list-table">
       <thead><tr><th>動作</th><th>次數</th><th>組</th><th>目的</th></tr></thead>
@@ -241,7 +246,7 @@
       </tbody>
     </table>
 
-    <div class="section-h" style="margin-top:32px"><h2>伸展瑜伽 B 套</h2><span class="num">偶數週</span></div>
+    <div class="section-h" style="margin-top:32px"><h2>伸展瑜伽 B 套</h2><span class="num">見課表</span></div>
     <p class="lead">瑜伽墊即可，全程 20–25 分鐘。可搭配輕音樂。</p>
     <table class="list-table">
       <thead><tr><th>動作</th><th>時間</th><th>目的</th></tr></thead>
@@ -274,40 +279,54 @@
 <!-- ============== RACE DAY ============== -->
 <section class="tab-page" id="page-race" data-screen-label="04 Race Day">
   <div class="wrap">
-    <div class="page-title-bar"><h1 class="page-title serif">Race Day</h1><span class="page-sub">9.20</span></div>
+    <div class="page-title-bar"><h1 class="page-title serif">Race Day</h1><span class="page-sub">9.20 → 10.25</span></div>
 
     <div class="bigquote" style="font-size:28px;padding-top:0">
       <span>Trust the </span><span class="accent">training.</span>
       <span class="small">All the work is already done</span>
     </div>
 
-    <div class="section-h"><h2>Pace Strategy</h2><span class="num">配速分段</span></div>
+    <div class="section-h"><h2>Two Races</h2><span class="num">兩場定位</span></div>
+    <table class="list-table">
+      <thead><tr><th style="width:34%">賽事</th><th>定位與目標</th></tr></thead>
+      <tbody>
+        <tr><td><b>9/20</b> 首戰</td><td>演練，不是決賽。把流程走完一次 → 目標 <b>2:50</b>（跑段 7:45–8:00）</td></tr>
+        <tr><td><b>10/25</b> 主場</td><td>帶著 18 km 長跑的底子來拚 → 目標 <b>2:40–2:50</b>（跑段 7:30–7:45）</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-h" style="margin-top:32px"><h2>Run–Walk Method</h2><span class="num">核心策略</span></div>
+    <p class="lead">兩場都用 <b>跑 9 分 / 走 1 分</b>，<b>從第 1 公里就開始</b>——不是累了才走。走路那 1 分鐘是保護，不是失敗。</p>
+    <div class="tip">為什麼有效：跑段 7:45 + 每 10 分鐘走 1 分 ≈ 均速 <b>8:05/km</b> → 21.1 km 約 <b>2:50</b>。sub-3 只需要 8:32/km，你有近 10 分鐘的緩衝。</div>
+
+    <div class="section-h" style="margin-top:32px"><h2>Pace Strategy</h2><span class="num">配速分段</span></div>
     <div class="race-strategy">
       <div class="rs-row">
         <div><div class="rs-seg">開跑</div><div class="rs-dist">0–5 km</div></div>
-        <div class="rs-strat">保守暖身，不被人群帶走</div>
-        <div class="rs-pace">8:40–8:50</div>
+        <div class="rs-strat">刻意慢。覺得「太慢了吧」就對了</div>
+        <div class="rs-pace">8:10–8:20</div>
       </div>
       <div class="rs-row">
-        <div><div class="rs-seg">中段</div><div class="rs-dist">5–15 km</div></div>
-        <div class="rs-strat">穩定巡航</div>
-        <div class="rs-pace">8:20–8:30</div>
+        <div><div class="rs-seg">中段</div><div class="rs-dist">5–12 km</div></div>
+        <div class="rs-strat">穩定巡航。感覺好也不要加速</div>
+        <div class="rs-pace">8:00–8:10</div>
       </div>
       <div class="rs-row">
-        <div><div class="rs-seg">後段</div><div class="rs-dist">15–18 km</div></div>
-        <div class="rs-strat">維持節奏</div>
-        <div class="rs-pace">8:20</div>
+        <div><div class="rs-seg">硬撐段</div><div class="rs-dist">12–18 km</div></div>
+        <div class="rs-strat">開始辛苦。走的那 1 分鐘照走，別省</div>
+        <div class="rs-pace">8:00–8:15</div>
       </div>
       <div class="rs-row">
-        <div><div class="rs-seg">衝刺</div><div class="rs-dist">18–21.1 km</div></div>
-        <div class="rs-strat">有餘力就加速</div>
-        <div class="rs-pace">8:00↑</div>
+        <div><div class="rs-seg">收尾</div><div class="rs-dist">18–21.1 km</div></div>
+        <div class="rs-strat">有餘力就把走的取消，跑進終點</div>
+        <div class="rs-pace">7:50↓</div>
       </div>
     </div>
+    <div class="art-warn">最常見的失敗：前 5 km 因為腿還新鮮跑到 7:00，第 15 km 就走不動了。你的 6:30 配速在這裡是陷阱，不是優勢。</div>
 
-    <div class="section-h" style="margin-top:32px"><h2>Eve & Morning</h2><span class="num">9/19 → 9/20</span></div>
+    <div class="section-h" style="margin-top:32px"><h2>Eve & Morning</h2><span class="num">賽前夜 → 賽日</span></div>
     <table class="list-table">
-      <thead><tr><th colspan="2">賽前一天 · 9/19</th></tr></thead>
+      <thead><tr><th colspan="2">賽前一天 · 9/19 或 10/24</th></tr></thead>
       <tbody>
         <tr><td style="width:42%">晚餐</td><td>碳水為主（義大利麵、白飯）</td></tr>
         <tr><td>裝備</td><td>準備好全套（號碼布、衣服、鞋、能量膠）</td></tr>
@@ -315,11 +334,12 @@
       </tbody>
     </table>
     <table class="list-table" style="margin-top:12px">
-      <thead><tr><th colspan="2">比賽當天 · 9/20</th></tr></thead>
+      <thead><tr><th colspan="2">比賽當天 · 9/20 或 10/25</th></tr></thead>
       <tbody>
         <tr><td style="width:42%">賽前 2–3 小時</td><td>熟悉早餐：吐司 + 香蕉 + 咖啡</td></tr>
         <tr><td>賽前 30 min</td><td>輕慢跑 + 動態暖身</td></tr>
-        <tr><td>補給</td><td>每 5 km 喝水，每 7–8 km 一包能量膠</td></tr>
+        <tr><td>起跑</td><td>手錶設 9 分 / 1 分循環提醒，第 1 公里就開始跑走</td></tr>
+        <tr><td>補給</td><td>每 5 km 喝水，每 7–8 km 一包能量膠（走的那分鐘吃）</td></tr>
       </tbody>
     </table>
 
@@ -345,7 +365,7 @@
         <tr><td>水泡</td><td>跑步專用襪 · 賽前試穿裝備</td></tr>
       </tbody>
     </table>
-    <div class="tip" style="margin-top:14px"><b>10% 法則</b>：每週跑量增加不超過前一週 10%</div>
+    <div class="tip" style="margin-top:14px"><b>關於 10% 法則</b>：一般原則是每週跑量增幅 ≤ 10%。這份計畫的前三週刻意違反它（11 → 21 → 25 km），因為時間不夠。代價用兩件事抵銷：<b>全程跑走</b>，以及<b>配速比你的能力慢 1 分鐘以上</b>。交換條件是——出現關節銳痛就立刻停，沒有例外。</div>
     <div class="warn"><b>疼痛 ≠ 痠痛</b>：關節銳痛或持續不退必須休息就醫</div>
 
     <div class="section-h" style="margin-top:32px"><h2>Kit List</h2><span class="num">必備裝備</span></div>

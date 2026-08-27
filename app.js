@@ -1,18 +1,23 @@
 /* Marathon training app — editorial redesign */
 
-const STORAGE_KEY = 'marathon-sub3hr-2026-v2';
-const RACE_DATE = '2026-09-20';
-const TRAIN_START = '2026-05-04';
+const STORAGE_KEY = 'marathon-2026-v3';
+const TRAIN_START = '2026-08-27';
+// 兩場比賽（09/20 演練、10/25 主場）——倒數一律指向「下一場」
+function nextRaceISO(){
+  const races = WEEKS.flatMap(w=>w.days.filter(d=>d.cat==='race' && d.date).map(d=>toISO(d.date)));
+  return races.find(iso => iso >= todayISO()) || races[races.length-1] || '';
+}
 
 let progress = {};
 try { progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) {}
 
+// 顯示順序＝時間順序
 const PHASES = [
-  {key:'base',  name:'基礎建立', en:'BASE',     dates:'W1–W4 · 05/04–05/31',  short:'05/04'},
-  {key:'aero',  name:'有氧發展', en:'AEROBIC',  dates:'W5–W8 · 06/01–06/28',  short:'06/01'},
-  {key:'build', name:'強化期',   en:'BUILD',    dates:'W9–W13 · 06/29–08/02', short:'06/29'},
-  {key:'peak',  name:'高峰期',   en:'PEAK',     dates:'W14–W16 · 08/03–08/30',short:'08/03'},
-  {key:'taper', name:'減量備賽', en:'TAPER',    dates:'W17–W19 · 08/31–09/20',short:'08/31'},
+  {key:'base',  name:'重建期',   en:'REBUILD',  dates:'W1–W3 · 08/27–09/13',  short:'08/27'},
+  {key:'peak',  name:'首戰演練', en:'RACE 1',   dates:'W4 · 09/14–09/20',     short:'09/14'},
+  {key:'aero',  name:'賽後恢復', en:'RECOVER',  dates:'W5–W6 · 09/21–10/04',  short:'09/21'},
+  {key:'build', name:'主場強化', en:'BUILD',    dates:'W7–W8 · 10/05–10/18',  short:'10/05'},
+  {key:'taper', name:'減量備賽', en:'TAPER',    dates:'W9 · 10/19–10/25',     short:'10/19'},
 ];
 
 const PHASE_C = {
@@ -50,7 +55,7 @@ function switchTab(name){
 
 function buildMasthead(){
   const today = todayISO();
-  const race = new Date(RACE_DATE+'T07:00:00+08:00');
+  const race = new Date(nextRaceISO()+'T07:00:00+08:00');
   const days = Math.max(0, Math.ceil((race - new Date()) / 864e5));
   const totalWeeks = WEEKS.length;
   const weeksIn = WEEKS.filter(w=>{
@@ -94,7 +99,7 @@ function buildOverview(){
     hero.innerHTML = `
       <div class="label-row"><span class="eyebrow today-eyebrow">訓練尚未開始</span></div>
       <h1>計畫即將開始</h1>
-      <div class="detail">第一週從 05/04 起跑。先休息、養腿、調整作息。</div>
+      <div class="detail">第一週從 ${TRAIN_START.slice(5).replace('-','/')} 起跑。先休息、養腿、調整作息。</div>
     `;
   } else {
     hero.innerHTML = `
@@ -281,6 +286,57 @@ function resetAll(){
   save();
   buildSchedule();
   buildOverview();
+}
+
+/* ===== 備份 / 還原 =====
+   打勾紀錄存在 localStorage，綁定網址 origin。更新網站不會清掉它，
+   但換裝置、清瀏覽器資料、或 iOS 長期未使用的儲存回收會。備份成一段
+   文字貼到 Notion/記事本，任何情況都救得回來。 */
+
+function backupProgress(){
+  const done = Object.keys(progress).filter(k=>progress[k]).length;
+  if (!done && !confirm('目前沒有任何打勾紀錄，還是要備份嗎？')) return;
+  const payload = JSON.stringify({
+    app: 'marathon-training-plan',
+    key: STORAGE_KEY,
+    savedAt: todayISO(),
+    progress
+  });
+  const ok = ()=>alert(`已複製 ${done} 筆紀錄到剪貼簿。
+貼到 Notion 或記事本存起來。`);
+  if (navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(payload).then(ok, ()=>showBackupText(payload));
+  } else {
+    showBackupText(payload);
+  }
+}
+
+function showBackupText(payload){
+  // 剪貼簿不可用時的退路：讓使用者自己長按複製
+  window.prompt('複製下面這段文字存起來：', payload);
+}
+
+function restoreProgress(){
+  const raw = window.prompt('貼上之前備份的文字：', '');
+  if (!raw) return;
+  let data;
+  try { data = JSON.parse(raw.trim()); }
+  catch(e){ alert('讀不出來——這段文字看起來不是備份檔。'); return; }
+  if (!data || typeof data.progress !== 'object' || data.progress === null){
+    alert('讀不出來——備份檔裡沒有進度資料。'); return;
+  }
+  const entries = Object.entries(data.progress).filter(([k,v]) => /^w\d+-\d+$/.test(k) && v === true);
+  if (!entries.length){ alert('這份備份裡沒有任何打勾紀錄。'); return; }
+  const stale = data.key && data.key !== STORAGE_KEY;
+  const warn = stale ? `
+
+⚠️ 這份備份來自舊版課表，勾選位置可能對不上。` : '';
+  if (!confirm(`要還原 ${entries.length} 筆紀錄嗎？現有紀錄會被覆蓋。${warn}`)) return;
+  progress = Object.fromEntries(entries);
+  save();
+  buildSchedule();
+  buildOverview();
+  alert('還原完成。');
 }
 
 /* ===== Tweaks ===== */
