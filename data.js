@@ -1,102 +1,107 @@
 // 訓練資料：2026/08/27 → 2026/10/25（9 週）
-// 兩場 21.1 km：09/20 首戰演練、10/25 主場 sub-3
-// 每週 3 次跑步（二/四/日），週日晨跑為長跑
+// 兩場 21.1 km：09/20 跑走完賽、10/25 主場
+//
+// 設計原則（因應：膝蓋正前方痛 3.5km、6:30 配速已達 Zone 5）
+// 1. 控制變數是「體感」不是配速——課表只寫時間，不寫配速數字
+// 2. 節拍器 170 是每一堂跑步課的必要條件，不是選配
+// 3. 長跑用時間上限，膝蓋一有感覺就停
+// 4. 膝蓋專項肌力排在不跑步的日子（三/五），不佔用三個跑步日
 const WEEKS = [
-  { id:1, phase:'base', phaseLabel:'重建期', dates:'08/27–08/30', km:'~11',
-    note:'從 4 km 重新開始。配速刻意放慢到 7:30——比你跑得動的還慢，這是故意的',
+  { id:1, phase:'base', phaseLabel:'重建期', dates:'08/27–08/30', km:'~80 分',
+    note:'課表只寫時間，不寫配速。唯一的判準是「能不能講完一句完整的話」',
     days:[
-      {dow:'四',date:'08/27',cat:'easy',icon:'🏃',title:'輕鬆跑 4 km',detail:'7:30/km・不要跑 6:30，今天的重點是「跑完還很輕鬆」'},
-      {dow:'五',date:'08/28',cat:'rest',icon:'😴',title:'休息',detail:'走路 20 分也算數'},
-      {dow:'六',date:'08/29',cat:'stretch',icon:'🧘',title:'居家 B 套伸展',detail:'瑜伽墊 20 min・鬆開髖與小腿，為明天長跑做準備'},
-      {dow:'日',date:'08/30',cat:'long',icon:'🛤️',title:'☀️ 長跑 7 km',detail:'跑 9 分 / 走 1 分・跑段 7:45/km・全程要能講長句子'}
+      {dow:'四',date:'08/27',cat:'easy',icon:'🏃',title:'輕鬆跑 30 分',detail:'🎵 170・跑 4 分 / 走 1 分・能講完整句子就對了・不要看配速'},
+      {dow:'五',date:'08/28',cat:'strength',icon:'🦵',title:'膝蓋專項 15 min',detail:'臀中肌為主・菜單見 Guide 頁「膝蓋專區」'},
+      {dow:'六',date:'08/29',cat:'stretch',icon:'🧘',title:'居家 B 套伸展 20 min',detail:'鬆開髖與小腿，為明天長跑做準備'},
+      {dow:'日',date:'08/30',cat:'long',icon:'🛤️',title:'☀️ 長跑 50 分',detail:'🎵 170・跑 4 走 1・約 5–6 km・時間到或膝蓋有感覺，先到的就停'}
     ]},
-  { id:2, phase:'base', phaseLabel:'重建期', dates:'08/31–09/06', km:'~21',
-    note:'第一次把長跑推過 10 km。跑走節奏從第 1 公里就開始，不是累了才走',
+  { id:2, phase:'base', phaseLabel:'重建期', dates:'08/31–09/06', km:'~150 分',
+    note:'第一次把長跑推到 80 分。跑段慢到「無聊」的程度才是對的強度',
     days:[
       {dow:'一',date:'08/31',cat:'rest',icon:'😴',title:'完全休息',detail:''},
-      {dow:'二',date:'09/01',cat:'easy',icon:'🏃',title:'輕鬆跑 5 km',detail:'Zone 2・7:30/km'},
-      {dow:'三',date:'09/02',cat:'rest',icon:'😴',title:'休息',detail:'走路或伸展，看疲勞決定'},
-      {dow:'四',date:'09/03',cat:'easy',icon:'🏃',title:'輕鬆跑 5 km + 大步跑',detail:'4×100m strides・喚醒腿部彈性，不是衝刺'},
-      {dow:'五',date:'09/04',cat:'rest',icon:'😴',title:'休息',detail:''},
-      {dow:'六',date:'09/05',cat:'stretch',icon:'🧘',title:'居家 B 套伸展',detail:'瑜伽墊 20 min'},
-      {dow:'日',date:'09/06',cat:'long',icon:'🛤️',title:'☀️ 長跑 11 km',detail:'跑 9 / 走 1・帶水・跑不完就走完，不要棄'}
+      {dow:'二',date:'09/01',cat:'easy',icon:'🏃',title:'輕鬆跑 35 分',detail:'🎵 170・跑 4 走 1・講得完整句就繼續，講不完就走'},
+      {dow:'三',date:'09/02',cat:'strength',icon:'🦵',title:'膝蓋專項 15 min',detail:'側躺抬腿・蚌殼式・單腿橋式是核心三動作'},
+      {dow:'四',date:'09/03',cat:'easy',icon:'🏃',title:'輕鬆跑 35 分 + 大步跑',detail:'🎵 170・結束前 4×15 秒大步跑（唯一可以跑快的地方）'},
+      {dow:'五',date:'09/04',cat:'strength',icon:'🦵',title:'膝蓋專項 15 min',detail:'下階要慢，全程盯著膝蓋不可以往內倒'},
+      {dow:'六',date:'09/05',cat:'rest',icon:'🚶',title:'輕鬆走 30 分',detail:'不是跑・純粹累積站著的時間，對膝蓋零風險'},
+      {dow:'日',date:'09/06',cat:'long',icon:'🛤️',title:'☀️ 長跑 80 分',detail:'🎵 170・跑 4 走 1・約 8–9 km・上週 50 分沒事才做這次'}
     ]},
-  { id:3, phase:'base', phaseLabel:'重建期', dates:'09/07–09/13', km:'~25',
+  { id:3, phase:'base', phaseLabel:'重建期', dates:'09/07–09/13', km:'~195 分',
     note:'⭐ 彩排週：9/13 這天把比賽當天的所有事完整演練一遍',
     days:[
       {dow:'一',date:'09/07',cat:'rest',icon:'😴',title:'完全休息',detail:''},
-      {dow:'二',date:'09/08',cat:'easy',icon:'🏃',title:'輕鬆跑 5 km',detail:'Zone 2'},
-      {dow:'三',date:'09/09',cat:'strength',icon:'💪',title:'居家 A 套肌力',detail:'瑜伽墊 25 min・臀與核心是長跑的保險'},
-      {dow:'四',date:'09/10',cat:'easy',icon:'🏃',title:'輕鬆跑 6 km',detail:'Zone 2・最後 1 km 提到 7:30 感受一下目標配速'},
-      {dow:'五',date:'09/11',cat:'rest',icon:'😴',title:'休息',detail:''},
+      {dow:'二',date:'09/08',cat:'easy',icon:'🏃',title:'輕鬆跑 35 分',detail:'🎵 170・跑 5 走 1（跑段拉長，心率撐得住才升級）'},
+      {dow:'三',date:'09/09',cat:'strength',icon:'🦵',title:'膝蓋專項 15 min',detail:'臀部撐得住，膝蓋才不會內倒'},
+      {dow:'四',date:'09/10',cat:'easy',icon:'🏃',title:'輕鬆跑 40 分',detail:'🎵 170・跑 5 走 1'},
+      {dow:'五',date:'09/11',cat:'strength',icon:'🦵',title:'膝蓋專項 15 min',detail:''},
       {dow:'六',date:'09/12',cat:'rest',icon:'😴',title:'完全休息',detail:'明天是關鍵日，今天養腿'},
-      {dow:'日',date:'09/13',cat:'long',icon:'🛤️',title:'☀️ 長跑 14 km · 全套彩排',detail:'穿比賽當天的鞋襪衣・跑 9 / 走 1・練補給・10 km 後不對就停'}
+      {dow:'日',date:'09/13',cat:'long',icon:'🛤️',title:'☀️ 長跑 120 分 · 全套彩排',detail:'🎵 170・跑 5 走 1・約 13–14 km・穿比賽當天全套裝備・練補給'}
     ]},
-  { id:4, phase:'peak', phaseLabel:'首戰演練', dates:'09/14–09/20', km:'~28',
-    note:'🏁 9/20 首戰。目標不是拚時間，是把 21.1 km 的流程完整走過一次',
+  { id:4, phase:'peak', phaseLabel:'首戰', dates:'09/14–09/20', km:'~230 分',
+    note:'🏁 9/20 跑走完賽。跑走比例照 Race 頁的關門時間對照表選',
     days:[
-      {dow:'一',date:'09/14',cat:'easy',icon:'🏃',title:'輕鬆跑 4 km',detail:'很慢・讓腿從 14 km 恢復'},
+      {dow:'一',date:'09/14',cat:'easy',icon:'🏃',title:'輕鬆跑 30 分',detail:'🎵 170・很慢・讓腿從彩排恢復'},
       {dow:'二',date:'09/15',cat:'rest',icon:'😴',title:'完全休息',detail:''},
-      {dow:'三',date:'09/16',cat:'easy',icon:'🏃',title:'輕慢跑 3 km + 大步跑',detail:'2×100m strides・喚醒腿，絕對不要練到累'},
+      {dow:'三',date:'09/16',cat:'easy',icon:'🏃',title:'輕慢跑 20 分 + 大步跑',detail:'🎵 170・2×15 秒・喚醒腿，絕對不要練到累'},
       {dow:'四',date:'09/17',cat:'rest',icon:'☕',title:'完全休息',detail:'開始把睡眠補足'},
-      {dow:'五',date:'09/18',cat:'rest',icon:'☕',title:'完全休息',detail:'準備裝備・多喝水'},
+      {dow:'五',date:'09/18',cat:'strength',icon:'🦵',title:'膝蓋專項（輕量）',detail:'只做臀部三個動作・不做下階與靜蹲'},
       {dow:'六',date:'09/19',cat:'rest',icon:'☕',title:'完全休息 + 賽前準備',detail:'碳水吃飽・別吃沒吃過的東西・早睡'},
-      {dow:'日',date:'09/20',cat:'race',icon:'🏁',title:'🏁 首戰 21.1 km',detail:'跑 9 分 / 走 1 分・跑段 7:45–8:00・目標 2:50・這是演練不是決賽'}
+      {dow:'日',date:'09/20',cat:'race',icon:'🏁',title:'🏁 首戰 21.1 km · 跑走完賽',detail:'🎵 170 全程・比例見 Race 頁・膝蓋痛就加長走段，不要停下不動'}
     ]},
-  { id:5, phase:'aero', phaseLabel:'賽後恢復', dates:'09/21–09/27', km:'~10',
-    note:'⬇️ 賽後校準週：依 9/20 的實際狀況調整。腿還酸就整週只走路，不要逞強',
+  { id:5, phase:'aero', phaseLabel:'賽後恢復', dates:'09/21–09/27', km:'~25 分',
+    note:'⬇️ 這週幾乎不跑。21.1 km 對現在的你是很大的一擊，恢復比訓練重要',
     days:[
       {dow:'一',date:'09/21',cat:'rest',icon:'😴',title:'完全休息',detail:'賽後第一天什麼都不要做'},
-      {dow:'二',date:'09/22',cat:'rest',icon:'🚶',title:'走路 30 分',detail:'促進循環，不要跑'},
-      {dow:'三',date:'09/23',cat:'stretch',icon:'🧘',title:'居家 B 套伸展',detail:'瑜伽墊 20 min・輕柔就好'},
-      {dow:'四',date:'09/24',cat:'easy',icon:'🏃',title:'慢跑 4 km',detail:'超慢・任何一步覺得痛就停下來改用走的'},
-      {dow:'五',date:'09/25',cat:'rest',icon:'😴',title:'休息',detail:''},
-      {dow:'六',date:'09/26',cat:'rest',icon:'😴',title:'休息',detail:''},
-      {dow:'日',date:'09/27',cat:'easy',icon:'🏃',title:'輕鬆跑 6 km',detail:'這不是長跑・只是確認身體回來了'}
+      {dow:'二',date:'09/22',cat:'rest',icon:'🚶',title:'輕鬆走 20–30 分',detail:'促進循環・絕對不要跑'},
+      {dow:'三',date:'09/23',cat:'stretch',icon:'🧘',title:'居家 B 套伸展 20 min',detail:'輕柔就好，不要拉到痛'},
+      {dow:'四',date:'09/24',cat:'rest',icon:'🚶',title:'輕鬆走 30 分',detail:'還是不要跑'},
+      {dow:'五',date:'09/25',cat:'strength',icon:'🦵',title:'膝蓋專項（輕量）',detail:'完全沒有痠痛才做，有就跳過'},
+      {dow:'六',date:'09/26',cat:'rest',icon:'😴',title:'完全休息',detail:''},
+      {dow:'日',date:'09/27',cat:'easy',icon:'🏃',title:'慢跑 25 分',detail:'🎵 170・跑 4 走 1・任何一步覺得痛就改用走的'}
     ]},
-  { id:6, phase:'aero', phaseLabel:'賽後恢復', dates:'09/28–10/04', km:'~23',
-    note:'重新建量。經過 9/20 之後，你的基礎已經跟一個月前完全不同了',
+  { id:6, phase:'aero', phaseLabel:'賽後恢復', dates:'09/28–10/04', km:'~165 分',
+    note:'重新建量。經過 9/20，你的身體已經跟一個月前完全不同了',
     days:[
       {dow:'一',date:'09/28',cat:'rest',icon:'😴',title:'完全休息',detail:''},
-      {dow:'二',date:'09/29',cat:'easy',icon:'🏃',title:'輕鬆跑 5 km',detail:'Zone 2'},
-      {dow:'三',date:'09/30',cat:'strength',icon:'💪',title:'居家 A 套肌力',detail:'瑜伽墊 25 min'},
-      {dow:'四',date:'10/01',cat:'easy',icon:'🏃',title:'輕鬆跑 6 km + 大步跑',detail:'4×100m strides'},
-      {dow:'五',date:'10/02',cat:'rest',icon:'😴',title:'休息',detail:''},
-      {dow:'六',date:'10/03',cat:'rest',icon:'😴',title:'休息',detail:''},
-      {dow:'日',date:'10/04',cat:'long',icon:'🛤️',title:'☀️ 長跑 12 km',detail:'跑 9 / 走 1・找回長跑手感'}
+      {dow:'二',date:'09/29',cat:'easy',icon:'🏃',title:'輕鬆跑 35 分',detail:'🎵 170・跑 5 走 1'},
+      {dow:'三',date:'09/30',cat:'strength',icon:'🦵',title:'膝蓋專項 15 min',detail:''},
+      {dow:'四',date:'10/01',cat:'easy',icon:'🏃',title:'輕鬆跑 40 分 + 大步跑',detail:'🎵 170・4×15 秒大步跑'},
+      {dow:'五',date:'10/02',cat:'strength',icon:'🦵',title:'膝蓋專項 15 min',detail:''},
+      {dow:'六',date:'10/03',cat:'rest',icon:'🚶',title:'輕鬆走 30 分',detail:''},
+      {dow:'日',date:'10/04',cat:'long',icon:'🛤️',title:'☀️ 長跑 90 分',detail:'🎵 170・跑 6 走 1・約 10–11 km'}
     ]},
-  { id:7, phase:'build', phaseLabel:'主場強化', dates:'10/05–10/11', km:'~29',
-    note:'開始練「目標配速」。sub-3 只需要 8:30/km，你要練到覺得它慢得不可思議',
+  { id:7, phase:'build', phaseLabel:'主場強化', dates:'10/05–10/11', km:'~205 分',
+    note:'加入節奏段。判準一樣是體感：能講短句、但講不完長句',
     days:[
       {dow:'一',date:'10/05',cat:'rest',icon:'😴',title:'完全休息',detail:''},
-      {dow:'二',date:'10/06',cat:'easy',icon:'🏃',title:'輕鬆跑 6 km',detail:'Zone 2'},
-      {dow:'三',date:'10/07',cat:'stretch',icon:'🧘',title:'居家 B 套伸展',detail:'瑜伽墊 20 min'},
-      {dow:'四',date:'10/08',cat:'tempo',icon:'⚡',title:'☀️ 配速跑 7 km',detail:'暖身 2km + 目標配速 3km @ 7:45 + 緩和 2km'},
-      {dow:'五',date:'10/09',cat:'rest',icon:'😴',title:'休息',detail:''},
-      {dow:'六',date:'10/10',cat:'rest',icon:'😴',title:'休息',detail:''},
-      {dow:'日',date:'10/11',cat:'long',icon:'🛤️',title:'☀️ 長跑 16 km',detail:'跑 9 / 走 1・最後 3 km 試著不走完成'}
+      {dow:'二',date:'10/06',cat:'easy',icon:'🏃',title:'輕鬆跑 40 分',detail:'🎵 170・跑 6 走 1'},
+      {dow:'三',date:'10/07',cat:'strength',icon:'🦵',title:'膝蓋專項 15 min',detail:''},
+      {dow:'四',date:'10/08',cat:'tempo',icon:'⚡',title:'☀️ 節奏跑 45 分',detail:'🎵 170・暖身 15 分 + 節奏 2×8 分（能講短句不能講長句）+ 緩和 10 分'},
+      {dow:'五',date:'10/09',cat:'strength',icon:'🦵',title:'膝蓋專項 15 min',detail:''},
+      {dow:'六',date:'10/10',cat:'rest',icon:'🚶',title:'輕鬆走 30 分',detail:''},
+      {dow:'日',date:'10/11',cat:'long',icon:'🛤️',title:'☀️ 長跑 120 分',detail:'🎵 170・跑 6 走 1・約 14–15 km'}
     ]},
-  { id:8, phase:'build', phaseLabel:'主場強化', dates:'10/12–10/18', km:'~31',
-    note:'⭐ 最高峰週：18 km。跑完這天，21.1 km 就只是「再多 3 公里」而已',
+  { id:8, phase:'build', phaseLabel:'主場強化', dates:'10/12–10/18', km:'~235 分',
+    note:'⭐ 最高峰週：10/18 的 150 分是本季最長的一次',
     days:[
       {dow:'一',date:'10/12',cat:'rest',icon:'😴',title:'完全休息',detail:''},
-      {dow:'二',date:'10/13',cat:'easy',icon:'🏃',title:'輕鬆跑 6 km',detail:'Zone 2'},
-      {dow:'三',date:'10/14',cat:'strength',icon:'💪',title:'居家 A 套 + 核心',detail:'瑜伽墊 30 min'},
-      {dow:'四',date:'10/15',cat:'tempo',icon:'⚡',title:'☀️ 配速跑 7 km',detail:'暖身 2km + 目標配速 4km @ 7:45 + 緩和 1km'},
-      {dow:'五',date:'10/16',cat:'rest',icon:'😴',title:'休息',detail:''},
-      {dow:'六',date:'10/17',cat:'rest',icon:'😴',title:'完全休息',detail:'養腿，明天是本季最長的一天'},
-      {dow:'日',date:'10/18',cat:'long',icon:'🏁',title:'☀️ 長跑 18 km',detail:'最長一次！跑完就贏一半了 🎉・完整補給演練'}
+      {dow:'二',date:'10/13',cat:'easy',icon:'🏃',title:'輕鬆跑 40 分',detail:'🎵 170・跑 9 走 1（比賽節奏）'},
+      {dow:'三',date:'10/14',cat:'strength',icon:'🦵',title:'膝蓋專項 15 min',detail:''},
+      {dow:'四',date:'10/15',cat:'tempo',icon:'⚡',title:'☀️ 節奏跑 45 分',detail:'🎵 170・暖身 15 分 + 節奏 2×10 分 + 緩和 8 分'},
+      {dow:'五',date:'10/16',cat:'stretch',icon:'🧘',title:'居家 B 套伸展 20 min',detail:'這週五六都養腿，把狀態留給週日'},
+      {dow:'六',date:'10/17',cat:'rest',icon:'😴',title:'完全休息',detail:'明天是本季最長的一天'},
+      {dow:'日',date:'10/18',cat:'long',icon:'🏁',title:'☀️ 長跑 150 分',detail:'🎵 170・跑 9 走 1・約 17–18 km・完整補給演練・跑完就贏一半了 🎉'}
     ]},
-  { id:9, phase:'taper', phaseLabel:'減量備賽', dates:'10/19–10/25', km:'~30',
+  { id:9, phase:'taper', phaseLabel:'減量備賽', dates:'10/19–10/25', km:'~240 分',
     note:'🏆 主場週！跑量大降，腿會覺得癢想跑——正常，忍住',
     days:[
       {dow:'一',date:'10/19',cat:'rest',icon:'😴',title:'完全休息',detail:''},
-      {dow:'二',date:'10/20',cat:'easy',icon:'🏃',title:'輕鬆跑 5 km',detail:'Zone 2'},
+      {dow:'二',date:'10/20',cat:'easy',icon:'🏃',title:'輕鬆跑 35 分',detail:'🎵 170・跑 9 走 1'},
       {dow:'三',date:'10/21',cat:'rest',icon:'☕',title:'完全休息',detail:'這週睡飽比任何練習都重要'},
-      {dow:'四',date:'10/22',cat:'easy',icon:'🏃',title:'輕慢跑 4 km + 大步跑',detail:'4×100m strides・喚醒腿'},
+      {dow:'四',date:'10/22',cat:'easy',icon:'🏃',title:'輕慢跑 25 分 + 大步跑',detail:'🎵 170・4×15 秒・喚醒腿'},
       {dow:'五',date:'10/23',cat:'rest',icon:'☕',title:'完全休息',detail:'準備裝備・多喝水'},
       {dow:'六',date:'10/24',cat:'rest',icon:'☕',title:'完全休息 + 賽前準備',detail:'碳水吃飽・早睡・複習跑走節奏'},
-      {dow:'日',date:'10/25',cat:'race',icon:'🏁',title:'🏆 主場 21.1 km · sub-3',detail:'跑 9 分 / 走 1 分・跑段 7:30–7:45・目標 2:40–2:50'}
+      {dow:'日',date:'10/25',cat:'race',icon:'🏁',title:'🏆 主場 21.1 km · 目標破 9/20',detail:'🎵 170 全程・跑走比例依 9/20 的實際經驗調整'}
     ]},
 ];
 
