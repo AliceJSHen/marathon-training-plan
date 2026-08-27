@@ -346,8 +346,9 @@ function restoreProgress(){
 
 const HALF_KM = 21.1;
 const DRIFT = 1.05;          // 後段掉速餘裕
-const TRACK_SUB3 = 7.4;      // km/h，推估落在 3 小時內
-const TRACK_310  = 7.0;      // km/h，推估約 3:10
+const TRACK_SUB3 = 7.4;      // km/h → 推估落在 3 小時內（10/25 延伸目標）
+const TRACK_PASS = 6.6;      // km/h → 9/20 關門 3.5 小時，含餘裕
+const TRACK_EDGE = HALF_KM * DRIFT / 3.5;  // 6.33 km/h → 剛好壓線
 
 function fmtHMS(hours){
   const total = Math.round(hours * 3600);
@@ -378,14 +379,17 @@ function updateCalc(){
   let cls, msg;
   if (speed >= TRACK_SUB3){
     cls = 'var(--c-easy)';
-    msg = `<b>在 sub-3 軌道上。</b>維持這個體感就好，不需要再快——剩下的交給週數累積。`;
-  } else if (speed >= TRACK_310){
+    msg = `<b>9/20 穩過關，連 sub-3 都在射程內。</b>維持這個體感就好，不需要再快——剩下的交給週數累積。`;
+  } else if (speed >= TRACK_PASS){
+    cls = 'var(--c-easy)';
+    const gap = (TRACK_SUB3 - speed).toFixed(2);
+    msg = `<b>9/20 過關沒問題</b>（關門 3.5 小時）。離 sub-3 還差每小時 ${gap} km——那是 10/25 的延伸目標，<b>不要靠跑更用力去補</b>，是靠週數累積出來的。`;
+  } else if (speed >= TRACK_EDGE){
     cls = 'var(--c-tempo)';
-    const need = (HALF_KM * DRIFT / 3 - speed).toFixed(2);
-    msg = `<b>推估約 ${fmtHMS(est)}。</b>關門 3.5 小時的話綽綽有餘；要進 3 小時還差每小時 ${need} km。<b>不要靠跑更用力去補</b>，那是靠週數累積出來的。`;
+    msg = `<b>推估 ${fmtHMS(est)}，過得了 3.5 小時關門但餘裕不多。</b>還在前幾週的話完全正常，看趨勢就好。到 9/13 彩排還是這個數字，比賽日就照 跑 4 走 1 穩穩跑，不要想追時間。`;
   } else {
     cls = 'var(--c-race)';
-    msg = `<b>推估約 ${fmtHMS(est)}。</b>目前不在 sub-3 軌道上——如果這是前幾週，完全正常，看趨勢就好。接近比賽還是這個數字，就把目標調整成誠實的完賽時間，並確認關門時間到底是幾小時。`;
+    msg = `<b>推估 ${fmtHMS(est)}，超過 9/20 的 3.5 小時關門。</b>如果這是前幾週，完全正常——看趨勢。到 9/13 彩排還是這樣，就把比例改成 <b>跑 5 走 1</b>（跑段變多、走段變少），或接受一個誠實的結果：這場本來就是完賽導向。`;
   }
 
   out.innerHTML = `

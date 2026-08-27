@@ -27,18 +27,18 @@ const WEEKS = [
       {dow:'日',date:'09/06',cat:'long',icon:'🛤️',title:'☀️ 長跑 80 分',detail:'🎵 170・跑 4 走 1・約 8–9 km・上週 50 分沒事才做這次'}
     ]},
   { id:3, phase:'base', phaseLabel:'重建期', dates:'09/07–09/13', km:'~195 分',
-    note:'⭐ 彩排週：9/13 這天把比賽當天的所有事完整演練一遍',
+    note:'⭐ 彩排週：9/13 完全比照比賽——跑 4 走 1、全套裝備、練補給。跑滿 120 分看距離',
     days:[
       {dow:'一',date:'09/07',cat:'rest',icon:'😴',title:'完全休息',detail:''},
-      {dow:'二',date:'09/08',cat:'easy',icon:'🏃',title:'輕鬆跑 35 分',detail:'🎵 170・跑 5 走 1（跑段拉長，心率撐得住才升級）'},
+      {dow:'二',date:'09/08',cat:'easy',icon:'🏃',title:'輕鬆跑 35 分',detail:'🎵 170・跑 4 走 1・跟比賽同一個節奏'},
       {dow:'三',date:'09/09',cat:'strength',icon:'🦵',title:'膝蓋專項 15 min',detail:'臀部撐得住，膝蓋才不會內倒'},
-      {dow:'四',date:'09/10',cat:'easy',icon:'🏃',title:'輕鬆跑 40 分',detail:'🎵 170・跑 5 走 1'},
+      {dow:'四',date:'09/10',cat:'easy',icon:'🏃',title:'輕鬆跑 40 分',detail:'🎵 170・跑 4 走 1'},
       {dow:'五',date:'09/11',cat:'strength',icon:'🦵',title:'膝蓋專項 15 min',detail:''},
       {dow:'六',date:'09/12',cat:'rest',icon:'😴',title:'完全休息',detail:'明天是關鍵日，今天養腿'},
-      {dow:'日',date:'09/13',cat:'long',icon:'🛤️',title:'☀️ 長跑 120 分 · 全套彩排',detail:'🎵 170・跑 5 走 1・約 13–14 km・穿比賽當天全套裝備・練補給'}
+      {dow:'日',date:'09/13',cat:'long',icon:'🛤️',title:'☀️ 長跑 120 分 · 全套彩排',detail:'🎵 170・跑 4 走 1（比照比賽）・目標 13.2 km 以上・穿比賽全套裝備・練補給'}
     ]},
   { id:4, phase:'peak', phaseLabel:'首戰', dates:'09/14–09/20', km:'~230 分',
-    note:'🏁 9/20 跑走完賽。跑走比例照 Race 頁的關門時間對照表選',
+    note:'🏁 9/20 跑走完賽。關門 3.5 小時，跑 4 走 1，預估 3:10–3:20——時間很夠',
     days:[
       {dow:'一',date:'09/14',cat:'easy',icon:'🏃',title:'輕鬆跑 30 分',detail:'🎵 170・很慢・讓腿從彩排恢復'},
       {dow:'二',date:'09/15',cat:'rest',icon:'😴',title:'完全休息',detail:''},
@@ -46,7 +46,7 @@ const WEEKS = [
       {dow:'四',date:'09/17',cat:'rest',icon:'☕',title:'完全休息',detail:'開始把睡眠補足'},
       {dow:'五',date:'09/18',cat:'strength',icon:'🦵',title:'膝蓋專項（輕量）',detail:'只做臀部三個動作・不做下階與靜蹲'},
       {dow:'六',date:'09/19',cat:'rest',icon:'☕',title:'完全休息 + 賽前準備',detail:'碳水吃飽・別吃沒吃過的東西・早睡'},
-      {dow:'日',date:'09/20',cat:'race',icon:'🏁',title:'🏁 首戰 21.1 km · 跑走完賽',detail:'🎵 170 全程・比例見 Race 頁・膝蓋痛就加長走段，不要停下不動'}
+      {dow:'日',date:'09/20',cat:'race',icon:'🏁',title:'🏁 首戰 21.1 km · 跑走完賽',detail:'🎵 170 全程・跑 4 走 1・關門 3.5 小時・膝蓋痛就加長走段，不要停下不動'}
     ]},
   { id:5, phase:'aero', phaseLabel:'賽後恢復', dates:'09/21–09/27', km:'~25 分',
     note:'⬇️ 這週幾乎不跑。21.1 km 對現在的你是很大的一擊，恢復比訓練重要',
