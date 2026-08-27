@@ -595,6 +595,34 @@ input,select,textarea{font:inherit;color:inherit}
   text-transform:uppercase;color:var(--ink-3);font-weight:500}
 .title-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
 
+/* 長跑進度換算器 */
+.calc{border:1px solid var(--rule-2);border-radius:var(--r-sm);
+  background:var(--bg-elev);padding:14px;margin:14px 0}
+[data-theme="press"] .calc{border-radius:0;border:2px solid var(--ink)}
+.calc-row{display:flex;gap:10px;flex-wrap:wrap}
+.calc-row label{flex:1 1 130px;display:flex;align-items:center;gap:6px;
+  font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3)}
+.calc-row input{flex:1;min-width:0;width:100%;font-family:var(--font-display);
+  font-size:20px;font-weight:500;color:var(--ink);background:transparent;
+  border:0;border-bottom:1.5px solid var(--rule-2);padding:4px 2px;
+  border-radius:0;-webkit-appearance:none;appearance:none}
+.calc-row input:focus{outline:none;border-bottom-color:var(--accent)}
+.calc-u{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);
+  letter-spacing:0;text-transform:none}
+.calc-out{margin-top:14px;padding-top:12px;border-top:1px solid var(--rule)}
+.calc-hint{font-family:var(--font-text);font-size:12.5px;color:var(--ink-3);line-height:1.55}
+.calc-grid{display:flex;gap:18px;flex-wrap:wrap}
+.calc-cell .k{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:2px}
+.calc-cell .v{font-family:var(--font-display);font-size:24px;font-weight:500;
+  line-height:1.1;letter-spacing:-.02em;color:var(--ink)}
+.calc-cell .v small{font-size:12px;font-weight:400;color:var(--ink-3);margin-left:2px}
+.calc-verdict{margin-top:12px;padding:10px 12px;border-left:3px solid var(--vc,var(--accent));
+  background:var(--bg-sunk);font-family:var(--font-text);font-size:12.5px;
+  line-height:1.55;color:var(--ink-2)}
+[data-theme="press"] .calc-verdict{background:var(--bg);border:1px solid var(--ink);border-left-width:6px}
+
 /* ============================================================
    RESPONSIVE
    ============================================================ */

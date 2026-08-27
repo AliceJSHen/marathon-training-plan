@@ -339,6 +339,65 @@ function restoreProgress(){
   alert('還原完成。');
 }
 
+/* ===== 長跑進度換算器 =====
+   課表寫時間不寫距離，所以「跑了多遠」就是進度指標。
+   推估完賽 = 21.1 / 長跑速度 × 1.05——5% 是給後段掉速的餘裕，
+   因為比賽距離一定超過訓練過的最長距離。 */
+
+const HALF_KM = 21.1;
+const DRIFT = 1.05;          // 後段掉速餘裕
+const TRACK_SUB3 = 7.4;      // km/h，推估落在 3 小時內
+const TRACK_310  = 7.0;      // km/h，推估約 3:10
+
+function fmtHMS(hours){
+  const total = Math.round(hours * 3600);
+  const h = Math.floor(total / 3600);
+  const m = String(Math.floor(total % 3600 / 60)).padStart(2, '0');
+  return `${h}:${m}`;
+}
+function fmtPace(minPerKm){
+  const s = Math.round(minPerKm * 60);
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+}
+
+function updateCalc(){
+  const out = document.getElementById('calc-out');
+  if (!out) return;
+  const min = parseFloat(document.getElementById('calc-min').value);
+  const km  = parseFloat(document.getElementById('calc-km').value);
+
+  if (!(min > 0) || !(km > 0)){
+    out.innerHTML = `<div class="calc-hint">輸入上面兩格，這裡會算出推估的半馬完賽時間。</div>`;
+    return;
+  }
+
+  const speed = km / (min / 60);              // km/h
+  const pace  = min / km;                     // 分/km
+  const est   = HALF_KM / speed * DRIFT;      // 小時
+
+  let cls, msg;
+  if (speed >= TRACK_SUB3){
+    cls = 'var(--c-easy)';
+    msg = `<b>在 sub-3 軌道上。</b>維持這個體感就好，不需要再快——剩下的交給週數累積。`;
+  } else if (speed >= TRACK_310){
+    cls = 'var(--c-tempo)';
+    const need = (HALF_KM * DRIFT / 3 - speed).toFixed(2);
+    msg = `<b>推估約 ${fmtHMS(est)}。</b>關門 3.5 小時的話綽綽有餘；要進 3 小時還差每小時 ${need} km。<b>不要靠跑更用力去補</b>，那是靠週數累積出來的。`;
+  } else {
+    cls = 'var(--c-race)';
+    msg = `<b>推估約 ${fmtHMS(est)}。</b>目前不在 sub-3 軌道上——如果這是前幾週，完全正常，看趨勢就好。接近比賽還是這個數字，就把目標調整成誠實的完賽時間，並確認關門時間到底是幾小時。`;
+  }
+
+  out.innerHTML = `
+    <div class="calc-grid">
+      <div class="calc-cell"><div class="k">速度</div><div class="v">${speed.toFixed(2)}<small>km/h</small></div></div>
+      <div class="calc-cell"><div class="k">配速</div><div class="v">${fmtPace(pace)}<small>/km</small></div></div>
+      <div class="calc-cell"><div class="k">推估半馬</div><div class="v">${fmtHMS(est)}</div></div>
+    </div>
+    <div class="calc-verdict" style="--vc:${cls}">${msg}</div>
+    <div class="calc-hint" style="margin-top:8px">推估 = 21.1 ÷ 速度 × 1.05（5% 餘裕給後段掉速）。這是溫度計，不是目標——體感永遠優先。</div>`;
+}
+
 /* ===== Tweaks ===== */
 const TWEAKS_DEFAULT = /*EDITMODE-BEGIN*/{
   "theme": "editorial",
@@ -435,6 +494,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
   buildOverview();
   buildSchedule();
   renderTweaks();
+  ['calc-min','calc-km'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', updateCalc);
+  });
+  updateCalc();
   switchTab('today');
   // signal host AFTER listener is set
   try { window.parent.postMessage({type:'__edit_mode_available'}, '*'); } catch(e){}
