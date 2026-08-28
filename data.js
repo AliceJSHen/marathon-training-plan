@@ -37,7 +37,7 @@ const WEEKS = [
       {dow:'六',date:'09/12',cat:'rest',icon:'😴',title:'完全休息',detail:'明天是關鍵日，今天養腿'},
       {dow:'日',date:'09/13',cat:'long',icon:'🛤️',title:'☀️ 長跑 120 分 · 全套彩排',detail:'🎵 170・跑 4 走 1（比照比賽）・目標 13.2 km 以上・穿比賽全套裝備・練補給'}
     ]},
-  { id:4, phase:'peak', phaseLabel:'首戰', dates:'09/14–09/20', km:'~230 分',
+  { id:4, phase:'peak', phaseLabel:'首戰', dates:'09/14–09/20', km:'~245 分',
     note:'🏁 9/20 跑走完賽。關門 3.5 小時，跑 4 走 1，預估 3:10–3:20——時間很夠',
     days:[
       {dow:'一',date:'09/14',cat:'easy',icon:'🏃',title:'輕鬆跑 30 分',detail:'🎵 170・很慢・讓腿從彩排恢復'},
@@ -92,7 +92,7 @@ const WEEKS = [
       {dow:'六',date:'10/17',cat:'rest',icon:'😴',title:'完全休息',detail:'明天是本季最長的一天'},
       {dow:'日',date:'10/18',cat:'long',icon:'🏁',title:'☀️ 長跑 150 分',detail:'🎵 170・跑 9 走 1・約 17–18 km・完整補給演練・跑完就贏一半了 🎉'}
     ]},
-  { id:9, phase:'taper', phaseLabel:'減量備賽', dates:'10/19–10/25', km:'~240 分',
+  { id:9, phase:'taper', phaseLabel:'減量備賽', dates:'10/19–10/25', km:'~255 分',
     note:'🏆 主場週！跑量大降，腿會覺得癢想跑——正常，忍住',
     days:[
       {dow:'一',date:'10/19',cat:'rest',icon:'😴',title:'完全休息',detail:''},
