@@ -19,6 +19,9 @@ const DOW = ['日', '一', '二', '三', '四', '五', '六'];
 const RUN_CATS = ['easy', 'long', 'tempo', 'interval', 'race'];
 const RACE_MINUTES = 195;                // 比賽日以預估完賽 3:15 計入週總量
 
+// 只往前看的規則用這個門檻：已經過去的課表是紀錄，不該為了通過檢查而改寫
+const TODAY = new Date(); TODAY.setHours(0, 0, 0, 0);
+
 const errors = [];
 const fail = m => errors.push(m);
 
@@ -75,6 +78,12 @@ for (const w of WEEKS) {
 
     if (d.cat === 'long' && !/走\s*1|停/.test(d.detail))
       fail(`W${w.id} ${d.date}：長跑缺少跑走比例或中止規則`);
+
+    // 超過 75 分必須練補給：9/20 只吃到約 25 g/hr（需求的一半），第 96 分撞牆。
+    // 這條原則是 9/23 才確立的，只約束還沒發生的課表——已經過去的日子不改寫。
+    const dur = +((d.title.match(/(\d+)\s*分/) || [])[1] || 0);
+    if (d.cat === 'long' && dur >= 75 && day >= TODAY && !d.detail.includes('補給'))
+      fail(`W${w.id} ${d.date}「${d.title}」：長跑超過 75 分卻沒安排補給`);
   }
 
   if (runDays > 3) fail(`W${w.id}：排了 ${runDays} 次跑步（每週上限 3 次）`);
@@ -109,6 +118,21 @@ const blocks = [];
 for (const w of WEEKS) if (blocks.at(-1) !== w.phase) blocks.push(w.phase);
 if (blocks.length !== new Set(blocks).size)
   fail(`同一階段的週次被拆開了：${blocks.join(' → ')}`);
+
+// 每場比賽前的最後一次長跑，跑走比例必須與比賽一致——
+// 否則彩排失去意義。這個錯誤在 9/13 和 10/18 各犯過一次。
+const ratioOf = d => ((d.detail.match(/跑 (\d) 走 1/) || [])[1]);
+const timeline = WEEKS.flatMap(w => w.days.map(d => ({ ...d, wid: w.id })));
+for (let i = 0; i < timeline.length; i++) {
+  if (timeline[i].cat !== 'race') continue;
+  const raceRatio = ratioOf(timeline[i]);
+  if (!raceRatio) { fail(`${timeline[i].date} 比賽日沒寫跑走比例`); continue; }
+  const lastLong = timeline.slice(0, i).reverse().find(d => d.cat === 'long');
+  if (!lastLong) continue;
+  const longRatio = ratioOf(lastLong);
+  if (longRatio && longRatio !== raceRatio)
+    fail(`${timeline[i].date} 比賽是跑${raceRatio}走1，但賽前最後長跑（${lastLong.date}）是跑${longRatio}走1——彩排比例必須與比賽一致`);
+}
 
 // ---- 摘要 --------------------------------------------------------------
 const longs = WEEKS.flatMap(w => w.days

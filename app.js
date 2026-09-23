@@ -14,7 +14,7 @@ try { progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(
 // 顯示順序＝時間順序
 const PHASES = [
   {key:'base',  name:'重建期',   en:'REBUILD',  dates:'W1–W3 · 08/27–09/13',  short:'08/27'},
-  {key:'peak',  name:'首戰演練', en:'RACE 1',   dates:'W4 · 09/14–09/20',     short:'09/14'},
+  {key:'peak',  name:'首戰',     en:'RACE 1',   dates:'W4 · 09/14–09/20',     short:'09/14'},
   {key:'aero',  name:'賽後恢復', en:'RECOVER',  dates:'W5–W6 · 09/21–10/04',  short:'09/21'},
   {key:'build', name:'主場強化', en:'BUILD',    dates:'W7–W8 · 10/05–10/18',  short:'10/05'},
   {key:'taper', name:'減量備賽', en:'TAPER',    dates:'W9 · 10/19–10/25',     short:'10/19'},
@@ -346,9 +346,9 @@ function restoreProgress(){
 
 const HALF_KM = 21.1;
 const DRIFT = 1.05;          // 後段掉速餘裕
-const TRACK_SUB3 = 7.4;      // km/h → 推估落在 3 小時內（10/25 延伸目標）
-const TRACK_PASS = 6.6;      // km/h → 9/20 關門 3.5 小時，含餘裕
-const TRACK_EDGE = HALF_KM * DRIFT / 3.5;  // 6.33 km/h → 剛好壓線
+const TRACK_SUB3 = 7.4;                          // km/h → 推估 2:59
+const TRACK_310  = 7.0;                          // km/h → 推估 3:09
+const TRACK_PB   = HALF_KM * DRIFT / (203 / 60); // 6.55 km/h → 追平 9/20 的 3:23
 
 function fmtHMS(hours){
   const total = Math.round(hours * 3600);
@@ -379,17 +379,16 @@ function updateCalc(){
   let cls, msg;
   if (speed >= TRACK_SUB3){
     cls = 'var(--c-easy)';
-    msg = `<b>9/20 穩過關，連 sub-3 都在射程內。</b>維持這個體感就好，不需要再快——剩下的交給週數累積。`;
-  } else if (speed >= TRACK_PASS){
+    msg = `<b>推估 ${fmtHMS(est)}——sub-3 在射程內。</b>維持這個體感就好，不需要再快。但記住 10/25 的主要目標是<b>不撞牆</b>，時間是附帶的。`;
+  } else if (speed >= TRACK_310){
     cls = 'var(--c-easy)';
-    const gap = (TRACK_SUB3 - speed).toFixed(2);
-    msg = `<b>9/20 過關沒問題</b>（關門 3.5 小時）。離 sub-3 還差每小時 ${gap} km——那是 10/25 的延伸目標，<b>不要靠跑更用力去補</b>，是靠週數累積出來的。`;
-  } else if (speed >= TRACK_EDGE){
+    msg = `<b>推估 ${fmtHMS(est)}，比 9/20 的 3:23 進步很多。</b>這個速度很夠了——把心力花在<b>跑滿整個時間</b>和<b>補給吃滿</b>，那兩件事才是 10/25 的勝負點。`;
+  } else if (speed >= TRACK_PB){
     cls = 'var(--c-tempo)';
-    msg = `<b>推估 ${fmtHMS(est)}，過得了 3.5 小時關門但餘裕不多。</b>還在前幾週的話完全正常，看趨勢就好。到 9/13 彩排還是這個數字，比賽日就照 跑 4 走 1 穩穩跑，不要想追時間。`;
+    msg = `<b>推估 ${fmtHMS(est)}，會小幅改善 9/20。</b>不用追速度——你 9/13 那 47 分鐘的時速是 7.97 km/h，<b>速度從來不是你的限制</b>。專心把長跑時間撐完。`;
   } else {
-    cls = 'var(--c-race)';
-    msg = `<b>推估 ${fmtHMS(est)}，超過 9/20 的 3.5 小時關門。</b>如果這是前幾週，完全正常——看趨勢。到 9/13 彩排還是這樣，就把比例改成 <b>跑 5 走 1</b>（跑段變多、走段變少），或接受一個誠實的結果：這場本來就是完賽導向。`;
+    cls = 'var(--c-tempo)';
+    msg = `<b>推估 ${fmtHMS(est)}，比 9/20 的 3:23 慢。</b>長跑本來就該比比賽慢，這個數字不用緊張。<b>真正要看的是：這次長跑有沒有跑完整個時間、補給有沒有撐住。</b>那兩項達成了，比賽日自然會快。`;
   }
 
   out.innerHTML = `
