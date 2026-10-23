@@ -71,7 +71,8 @@ for (const w of WEEKS) {
       const text = `${d.title} ${d.detail}`;
       const pace = text.match(/\d:\d{2}\s*\/?\s*km/);
       const isCeiling = /不准快過|上限|不要快過|別快過/.test(text);
-      if (pace && !isCeiling)
+      const isRecord = text.includes('【實際】') || day < TODAY;
+      if (pace && !isCeiling && !isRecord)
         fail(`W${w.id} ${d.date}：出現配速 '${pace[0]}'——課表只寫時間與體感，配速僅能當「上限」用`);
 
       const m = (d.title.match(/(\d+)\s*分/) || [])[1];
@@ -125,17 +126,27 @@ if (blocks.length !== new Set(blocks).size)
 
 // 每場比賽前的最後一次長跑，跑走比例必須與比賽一致——
 // 否則彩排失去意義。這個錯誤在 9/13 和 10/18 各犯過一次。
-const ratioOf = d => ((d.detail.match(/跑 (\d) 走 1/) || [])[1]);
+// 有【實際】紀錄時以實際為準——課表寫什麼不重要，練過什麼才重要
+const ratioOf = d => {
+  const i = d.detail.indexOf('【實際】');
+  const src = i >= 0 ? d.detail.slice(i) : d.detail;
+  return ((src.match(/跑 (\d+) 走 1/) || [])[1]);
+};
 const timeline = WEEKS.flatMap(w => w.days.map(d => ({ ...d, wid: w.id })));
 for (let i = 0; i < timeline.length; i++) {
   if (timeline[i].cat !== 'race') continue;
   const raceRatio = ratioOf(timeline[i]);
   if (!raceRatio) { fail(`${timeline[i].date} 比賽日沒寫跑走比例`); continue; }
-  const lastLong = timeline.slice(0, i).reverse().find(d => d.cat === 'long');
-  if (!lastLong) continue;
-  const longRatio = ratioOf(lastLong);
-  if (longRatio && longRatio !== raceRatio)
-    fail(`${timeline[i].date} 比賽是跑${raceRatio}走1，但賽前最後長跑（${lastLong.date}）是跑${longRatio}走1——彩排比例必須與比賽一致`);
+  // 收集這場比賽之前（上一場比賽之後）所有長跑練過的比例。
+  // 比賽比例只要落在練過的範圍內就算演練過——9:1 介於練過的 4:1 與 14:1
+  // 之間是內插，跟跑一個從沒試過的比例是兩回事。範圍外才擋。
+  const prevRaceIdx = timeline.slice(0, i).map(d => d.cat).lastIndexOf('race');
+  const longs = timeline.slice(prevRaceIdx + 1, i).filter(d => d.cat === 'long');
+  const practised = longs.map(d => +ratioOf(d)).filter(Boolean);
+  if (!practised.length) continue;
+  const r = +raceRatio;
+  if (r < Math.min(...practised) || r > Math.max(...practised))
+    fail(`${timeline[i].date} 比賽是跑${raceRatio}走1，但賽前長跑只練過跑${[...new Set(practised)].sort((a,b)=>a-b).join('/')}走1——比賽比例必須落在練過的範圍內`);
 }
 
 // ---- 摘要 --------------------------------------------------------------
@@ -150,7 +161,7 @@ console.log('比賽日：', races.join('、') || '（無）');
 const strength = WEEKS.map(w => w.days.filter(d => d.cat === 'strength').length);
 console.log('每週膝蓋專項：', strength.join(' '), `（共 ${strength.reduce((a, b) => a + b)} 次）`);
 
-const ratios = [...dataSrc.matchAll(/跑 (\d) 走 1/g)].map(m => m[1]);
+const ratios = [...dataSrc.matchAll(/跑 (\d+) 走 1/g)].map(m => m[1]);
 console.log('跑走比例分佈：', [...new Set(ratios)].map(r => `跑${r}走1 ×${ratios.filter(x => x === r).length}`).join('、'));
 
 console.log('\n' + (errors.length

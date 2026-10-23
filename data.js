@@ -92,18 +92,18 @@ const WEEKS = [
       {dow:'四',date:'10/15',cat:'tempo',icon:'⚡',title:'☀️ 節奏跑 45 分',detail:'🎵 170・暖身 15 分 + 節奏 2×10 分 + 緩和 8 分'},
       {dow:'五',date:'10/16',cat:'stretch',icon:'🧘',title:'居家 B 套伸展 20 min',detail:'這週五六都養腿，把狀態留給週日'},
       {dow:'六',date:'10/17',cat:'rest',icon:'😴',title:'完全休息',detail:'明天是本季最長的一天'},
-      {dow:'日',date:'10/18',cat:'long',icon:'🏁',title:'☀️ 長跑 150 分',detail:'🎵 170・跑 4 走 1・補給：第 40／75／110／140 分各一份（約 40 g/hr）・這次是完整彩排 🎉'}
+      {dow:'日',date:'10/18',cat:'long',icon:'🏁',title:'☀️ 長跑 150 分',detail:'🎵 170・跑 4 走 1・補給：第 40／75／110／140 分各一份（約 40 g/hr）・【實際】跑 14 走 1、70 分 / 10 km、7:00/km，10 km 時還不累'}
     ]},
   { id:9, phase:'taper', phaseLabel:'減量備賽', dates:'10/19–10/25', km:'~255 分',
-    note:'🏆 主場週！最大風險不是燃料，是跑太快——10/18 你用 7:00/km 跑，70 分就收了',
+    note:'🏆 主場週！目標 2:45。10/18 的 7:00/km 證明引擎夠，變數在最後 7 公里',
     days:[
       {dow:'一',date:'10/19',cat:'rest',icon:'😴',title:'完全休息',detail:''},
       {dow:'二',date:'10/20',cat:'easy',icon:'🏃',title:'輕鬆跑 35 分',detail:'🎵 170・跑 4 走 1'},
       {dow:'三',date:'10/21',cat:'rest',icon:'☕',title:'完全休息',detail:'這週睡飽比任何練習都重要'},
       {dow:'四',date:'10/22',cat:'easy',icon:'🏃',title:'輕慢跑 25 分 + 大步跑',detail:'🎵 170・4×15 秒・喚醒腿'},
       {dow:'五',date:'10/23',cat:'rest',icon:'☕',title:'完全休息',detail:'準備裝備・多喝水'},
-      {dow:'六',date:'10/24',cat:'rest',icon:'☕',title:'完全休息 + 賽前準備',detail:'碳水吃飽・早睡・數好 5 包 GA 膠（吃 4 包，1 包備用）'},
-      {dow:'日',date:'10/25',cat:'race',icon:'🏁',title:'🏆 主場 21.1 km · 目標不撞牆',detail:'🎵 170・跑 4 走 1（手錶設循環提醒）・前 5 km 不准快過 9:00/km・GA 膠第 45／90／135／180 分各一包配 250 mL 水'}
+      {dow:'六',date:'10/24',cat:'rest',icon:'☕',title:'完全休息 + 賽前準備',detail:'碳水吃飽・早睡・數好 5 包 GA 膠・手錶設好 9 分/1 分循環提醒'},
+      {dow:'日',date:'10/25',cat:'race',icon:'🏁',title:'🏆 主場 21.1 km · 目標 2:45',detail:'🎵 170・跑 9 走 1・前 7 km 不准快過 8:00/km・14 km 檢查點 ≤110 分才續拚・GA 膠第 40／80／120／160 分配 250 mL 水'}
     ]},
 ];
 
