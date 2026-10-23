@@ -102,8 +102,8 @@ const WEEKS = [
       {dow:'三',date:'10/21',cat:'rest',icon:'☕',title:'完全休息',detail:'這週睡飽比任何練習都重要'},
       {dow:'四',date:'10/22',cat:'easy',icon:'🏃',title:'輕慢跑 25 分 + 大步跑',detail:'🎵 170・4×15 秒・喚醒腿'},
       {dow:'五',date:'10/23',cat:'rest',icon:'☕',title:'完全休息',detail:'準備裝備・多喝水'},
-      {dow:'六',date:'10/24',cat:'rest',icon:'☕',title:'完全休息 + 賽前準備',detail:'碳水吃飽・早睡・複習跑走節奏'},
-      {dow:'日',date:'10/25',cat:'race',icon:'🏁',title:'🏆 主場 21.1 km · 目標不撞牆',detail:'🎵 170・跑 4 走 1・補給每 40 分一份配白開水・目標是 15 km 後還在跑'}
+      {dow:'六',date:'10/24',cat:'rest',icon:'☕',title:'完全休息 + 賽前準備',detail:'碳水吃飽・早睡・數好 5 包 GA 膠（吃 4 包，1 包備用）'},
+      {dow:'日',date:'10/25',cat:'race',icon:'🏁',title:'🏆 主場 21.1 km · 目標不撞牆',detail:'🎵 170・跑 4 走 1・GA 膠：第 45／90／135／180 分各一包配 250 mL 白開水・目標 15 km 後還在跑'}
     ]},
 ];
 
