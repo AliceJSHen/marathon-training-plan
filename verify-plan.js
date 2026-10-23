@@ -66,9 +66,13 @@ for (const w of WEEKS) {
       if (!d.detail.includes('🎵'))
         fail(`W${w.id} ${d.date}「${d.title}」：跑步課缺少 🎵 170 標記`);
 
-      const pace = `${d.title} ${d.detail}`.match(/\d:\d{2}\s*\/?\s*km/);
-      if (pace)
-        fail(`W${w.id} ${d.date}：出現配速 '${pace[0]}'——課表應只寫時間與體感`);
+      // 課表不寫「要追的配速」——那會把輕鬆跑變成閾值課。
+      // 但「上限」是相反用途（防止跑太快），允許，須明寫不准快過／上限。
+      const text = `${d.title} ${d.detail}`;
+      const pace = text.match(/\d:\d{2}\s*\/?\s*km/);
+      const isCeiling = /不准快過|上限|不要快過|別快過/.test(text);
+      if (pace && !isCeiling)
+        fail(`W${w.id} ${d.date}：出現配速 '${pace[0]}'——課表只寫時間與體感，配速僅能當「上限」用`);
 
       const m = (d.title.match(/(\d+)\s*分/) || [])[1];
       if (m) mins += +m;
